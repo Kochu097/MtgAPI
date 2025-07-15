@@ -11,7 +11,7 @@ spring:
     caffeine:
       spec: maximumSize=500,expireAfterWrite=24h
 cors:
-  allowed-origins: "https://your-app-name.rapidapi.com"
+  allowed-origins: "https://mtgapi.onrender.com"
 logging:
   level:
     root: INFO                   # Global log level
