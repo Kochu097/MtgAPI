@@ -1,0 +1,30 @@
+spring:
+  cache:
+    cache-names:
+      - cardsTheName
+      - cardsImagesByName
+      - cardsByExactName
+      - setsByCode
+      - autocomplete
+      - allSets
+      - cardsByCode
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=24h
+cors:
+  allowed-origins: "https://your-app-name.rapidapi.com"
+logging:
+  level:
+    root: INFO                   # Global log level
+    org.springframework.web: DEBUG  # Package-specific logging
+    com.kochu.MTG_API: DEBUG        # Your app package
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+  file:
+    name: logs/app.log            # Log file name (relative to project root)
+
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB         # Rotate log file after 10MB
+      max-history: 7              # Keep logs for 7 days
