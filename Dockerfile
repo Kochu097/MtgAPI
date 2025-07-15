@@ -1,5 +1,5 @@
 ### Stage 1: Build the JAR ###
-FROM openjdk:17-jdk-slim AS build
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Copy all project files
