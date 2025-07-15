@@ -1,0 +1,15 @@
+spring:
+  cache:
+    cache-names:
+      - cardsTheName
+      - cardsImagesByName
+      - cardsByExactName
+      - setsByCode
+      - autocomplete
+      - allSets
+      - cardsByCode
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=24h
+cors:
+  allowed-origins:
+    - "https://your-app-name.rapidapi.com"
