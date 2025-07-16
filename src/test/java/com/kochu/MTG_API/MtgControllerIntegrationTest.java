@@ -398,8 +398,6 @@ public class MtgControllerIntegrationTest {
         set.setIsDigital(false);
         set.setNonFoilOnly(false);
         set.setFoilOnly(false);
-        set.setBlockCode(null);
-        set.setBlock(null);
         set.setIconUrl("https://example.com/icon.svg");
         return set;
     }
