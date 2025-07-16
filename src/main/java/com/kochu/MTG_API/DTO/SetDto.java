@@ -32,12 +32,6 @@ public class SetDto {
     @JsonProperty("foil_only")
     private Boolean foilOnly;
 
-    @JsonProperty("block_code")
-    private String blockCode;
-
-    @JsonProperty("block")
-    private String block;
-
     @JsonProperty("icon_svg_uri")
     private String iconUrl;
 
