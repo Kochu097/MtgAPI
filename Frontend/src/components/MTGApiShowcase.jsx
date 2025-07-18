@@ -1,5 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Shuffle, Eye, Heart, Zap, BookOpen, Settings, Sparkles } from 'lucide-react';
+import { Search, Shuffle, Eye, Heart, Zap, BookOpen, Settings, Sparkles, Menu, X } from 'lucide-react'; // Added Menu, X icons
+import './MTGApiShowcase.css';
+
+const Overlay = ({ isOpen, setIsOpen }) => (
+    isOpen ? (
+        <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setIsOpen(false)}
+        />
+    ) : null
+);
+
+const MobileMenu = ({ tabs, activeTab, setActiveTab, isOpen, setIsOpen }) => (
+    <div className={`lg:hidden ${isOpen ? 'block' : 'hidden'} fixed top-20 right-4 left-4 z-50`}>
+      <div className="bg-slate-800 rounded-xl shadow-lg p-2 border border-slate-700">
+        {tabs.map(tab => {
+          const Icon = tab.icon;
+          return (
+              <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    setIsOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                      activeTab === tab.id
+                          ? 'bg-purple-600 text-white'
+                          : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                  }`}
+              >
+                <Icon className="w-5 h-5" />
+                <span>{tab.label}</span>
+              </button>
+          );
+        })}
+      </div>
+    </div>
+);
 
 const MTGApiShowcase = () => {
   const [activeTab, setActiveTab] = useState('search');
@@ -12,6 +49,7 @@ const MTGApiShowcase = () => {
   const [setCards, setSetCards] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Dynamic API base URL based on environment
   const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://mtgapi.onrender.com/api';
@@ -180,41 +218,70 @@ const MTGApiShowcase = () => {
   ];
 
   return (
-    <div className="min-h-screen min-w-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <div className="container mx-auto px-4 py-8">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">
-            🔮 MTG API Showcase
-          </h1>
-          <p className="text-slate-300 text-lg">
-            Explore Magic: The Gathering cards with powerful API endpoints
-          </p>
-        </header>
+      <div className="min-h-screen min-w-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <div className="container mx-auto px-4 py-8">
+          <header className="text-center mb-8 relative">
+            <h1 className="text-4xl font-bold text-white mb-2">
+              🔮 MTG API Showcase
+            </h1>
+            <p className="text-slate-300 text-lg">
+              Explore Magic: The Gathering cards with powerful API endpoints
+            </p>
+          </header>
 
-        {/* Navigation */}
-        <nav className="flex justify-center mb-8">
-          <div className="bg-slate-800 rounded-xl p-1 shadow-lg">
-            {tabs.map(tab => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-lg transition-all duration-200 ${
-                    activeTab === tab.id
-                      ? 'bg-purple-600 text-white shadow-lg'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-700'
-                  }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-        </nav>
+          {/* Navigation - Desktop and Mobile */}
+          <nav className="relative mb-8">
+            {/* Mobile Menu Button */}
+            <div className="lg:hidden flex justify-end mb-4">
+              <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="p-2 text-white bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
+              >
+                {isMobileMenuOpen ? (
+                    <X className="w-6 h-6" />
+                ) : (
+                    <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
 
-        {/* Content */}
+            {/* Overlay */}
+            <Overlay isOpen={isMobileMenuOpen} setIsOpen={setIsMobileMenuOpen} />
+
+            {/* Mobile Menu Dropdown */}
+            <MobileMenu
+                tabs={tabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                isOpen={isMobileMenuOpen}
+                setIsOpen={setIsMobileMenuOpen}
+            />
+
+            {/* Desktop Menu */}
+            <div className="hidden lg:flex justify-center">
+              <div className="bg-slate-800 rounded-xl p-1 shadow-lg inline-flex">
+                {tabs.map(tab => {
+                  const Icon = tab.icon;
+                  return (
+                      <button
+                          key={tab.id}
+                          onClick={() => setActiveTab(tab.id)}
+                          className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg transition-all duration-200 ${
+                              activeTab === tab.id
+                                  ? 'bg-purple-600 text-white shadow-lg'
+                                  : 'text-slate-300 hover:text-white hover:bg-slate-700'
+                          }`}
+                      >
+                        <Icon className="w-5 h-5" />
+                        {tab.label}
+                      </button>
+                  );
+                })}
+              </div>
+            </div>
+          </nav>
+
+          {/* Content */}
         <div className="max-w-6xl mx-auto">
           {activeTab === 'search' && (
             <div className="space-y-6">
