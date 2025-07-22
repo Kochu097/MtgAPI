@@ -49,14 +49,7 @@ export const SearchTab = ({ searchTerm, setSearchTerm, handleSearch, handleAutoc
                         disabled={loading}
                         className={buttonStyles.primary}
                     >
-                        {loading ? 'Searching...' : 'Fuzzy Search'}
-                    </button>
-                    <button
-                        onClick={() => handleSearch(searchTerm, true)}
-                        disabled={loading}
-                        className={buttonStyles.secondary}
-                    >
-                        Exact Search
+                        {loading ? 'Searching...' : 'Search'}
                     </button>
                 </div>
             </div>

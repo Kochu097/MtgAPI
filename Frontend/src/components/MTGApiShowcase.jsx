@@ -46,18 +46,18 @@ const MTGApiShowcase = () => {
             </p>
           </header>
 
+
+          {/* Content */}
+        <div className="max-w-6xl mx-auto">
+          {renderTabContent()}
+        </div>
           {/* Navigation - Desktop and Mobile */}
           <Navigation
               setIsMobileMenuOpen = {setIsMobileMenuOpen}
               isMobileMenuOpen = {isMobileMenuOpen}
               activeTab = {activeTab}
               setActiveTab = {setActiveTab}
-            />
-
-          {/* Content */}
-        <div className="max-w-6xl mx-auto">
-          {renderTabContent()}
-        </div>
+          />
       </div>
     </div>
   );

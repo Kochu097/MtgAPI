@@ -4,6 +4,7 @@ import AuthModule from './components/AuthModule';
 import { AuthProvider } from './contexts/AuthContext';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import Navbar from "./components/Navibar.jsx";
 
 function App() {
     const firebaseConfig = {
@@ -21,8 +22,11 @@ function App() {
   return (
       <AuthProvider>
           <div className="App">
-              <AuthModule />
-              <MTGApiShowcase />
+              <Navbar />
+              <div className="pt-16">
+                  <MTGApiShowcase />
+              </div>
+
           </div>
       </AuthProvider>
   );
