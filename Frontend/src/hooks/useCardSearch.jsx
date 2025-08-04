@@ -5,7 +5,7 @@ import {useAutocomplete} from "./useAutocomplete.jsx";
 
 export const useCardSearch = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState(null);
+    const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const autocompleteFeatures = useAutocomplete();
@@ -15,10 +15,9 @@ export const useCardSearch = () => {
 
         setLoading(true);
         setError(null);
-
         try {
             const result = await mtgApi.getCardByName(term, exact);
-            setSearchResults(result);
+            setSearchResults([result]);
         } catch (err) {
             setError('Failed to fetch card data. Please try again.');
         } finally {

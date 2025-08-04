@@ -18,12 +18,12 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800 z-40">
+            <nav className="fixed top-0 left-0 right-0 bg-[#111415]/95  backdrop-blur-sm border-b border-[#272927] z-40">
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between h-16">
                         {/* Logo */}
                         <div className="flex items-center">
-                            <span className="text-2xl font-bold text-white">🔮 MTG</span>
+                            <span className="text-2xl font-bold">🔮 MTG</span>
                         </div>
 
                         {/* Desktop Auth Buttons */}
@@ -31,17 +31,10 @@ const Navbar = () => {
                             <div className="hidden md:flex items-center gap-4">
                                 <button
                                     onClick={() => handleAuthClick('login')}
-                                    className="inline-flex items-center gap-2 px-4 py-2 text-white hover:bg-slate-800 rounded-lg transition-colors"
+                                    className="inline-flex items-center gap-2 px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors"
                                 >
                                     <LogIn className="w-5 h-5" />
-                                    <span>Login</span>
-                                </button>
-                                <button
-                                    onClick={() => handleAuthClick('register')}
-                                    className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                                >
-                                    <UserPlus className="w-5 h-5" />
-                                    <span>Register</span>
+                                    <span>Login/Register</span>
                                 </button>
                             </div>
                         )}
@@ -51,7 +44,7 @@ const Navbar = () => {
                             <div className="md:hidden">
                                 <button
                                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                    className="p-2 text-white hover:bg-slate-800 rounded-lg"
+                                    className="p-2 hover:bg-slate-800 rounded-lg"
                                 >
                                     {isMenuOpen ? (
                                         <X className="w-6 h-6" />
@@ -79,17 +72,10 @@ const Navbar = () => {
                         <div className="md:hidden py-4 space-y-2">
                             <button
                                 onClick={() => handleAuthClick('login')}
-                                className="w-full inline-flex items-center gap-2 px-4 py-2 text-white hover:bg-slate-800 rounded-lg transition-colors"
+                                className="w-full inline-flex items-center gap-2 px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors"
                             >
                                 <LogIn className="w-5 h-5" />
-                                <span>Login</span>
-                            </button>
-                            <button
-                                onClick={() => handleAuthClick('register')}
-                                className="w-full inline-flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                            >
-                                <UserPlus className="w-5 h-5" />
-                                <span>Register</span>
+                                <span>Login/Register</span>
                             </button>
                         </div>
                     )}

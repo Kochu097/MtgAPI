@@ -1,67 +1,63 @@
 import {Search} from "lucide-react";
-import React from "react";
-import {CardDisplay} from "../card/CardDisplay.jsx";
-import {buttonStyles} from "../../styles/commonStyles.jsx";
+import React, { useRef, useEffect } from "react";
 
 export const SearchTab = ({ searchTerm, setSearchTerm, handleSearch, handleAutocomplete,
-                              autocompleteResults, setAutocompleteResults, loading,
-                              searchResults, error}) => {
+                              autocompleteResults, setAutocompleteResults}) => {
+
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setAutocompleteResults(null);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [setAutocompleteResults]);
 
     return (
-        <div className="space-y-6">
-            <div className="bg-slate-800 rounded-xl p-6 shadow-lg">
-                <h2 className="text-2xl font-bold text-white mb-4">Search Cards</h2>
-                <div className="relative">
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => {
-                            setSearchTerm(e.target.value);
-                            handleAutocomplete(e.target.value);
-                        }}
-                        placeholder="Enter card name (e.g., Lightning Bolt)..."
-                        className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:border-purple-500 focus:outline-none"
-                    />
-                    <Search className="absolute right-3 top-3 w-5 h-5 text-slate-400" />
-                </div>
+        <>
+            <div className="relative" ref={dropdownRef}>
+                <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        handleAutocomplete(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            handleSearch(searchTerm);
+                        }
+                    }}
+                    placeholder="Enter card name (e.g., Lightning Bolt)..."
+                    className="w-full px-4 py-3 bg-[#242727]-900 rounded-lg border border-slate-600 focus:border-purple-500 focus:outline-none"
+                />
+                <Search className="absolute right-3 top-3 w-5 h-5 text-slate-400" />
 
+                {/* Autocomplete dropdown */}
                 {autocompleteResults && autocompleteResults.data && autocompleteResults.data.length > 0 && (
-                    <div className="mt-2 bg-slate-700 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-slate-700 border border-slate-600 rounded-lg shadow-xl max-h-48 overflow-y-auto z-50">
                         {autocompleteResults.data.map((suggestion, index) => (
-                            <button
+                            <div
                                 key={index}
                                 onClick={() => {
                                     setSearchTerm(suggestion);
                                     setAutocompleteResults(null);
                                     handleSearch(suggestion);
                                 }}
-                                className="w-full px-4 py-2 text-left text-white hover:bg-slate-600 first:rounded-t-lg last:rounded-b-lg"
+                                className="px-4 py-3 text-left hover:bg-slate-600 cursor-pointer border-b border-slate-600 last:border-b-0 first:rounded-t-lg last:rounded-b-lg transition-colors duration-150"
                             >
-                                {suggestion}
-                            </button>
+                                <span className="text-slate-200">{suggestion}</span>
+                            </div>
                         ))}
                     </div>
                 )}
-
-                <div className="flex gap-3 mt-4">
-                    <button
-                        onClick={() => handleSearch(searchTerm)}
-                        disabled={loading}
-                        className={buttonStyles.primary}
-                    >
-                        {loading ? 'Searching...' : 'Search'}
-                    </button>
-                </div>
             </div>
-
-            {error && (
-                <div className="bg-red-600 text-white p-4 rounded-lg">
-                    {error}
-                </div>
-            )}
-
-            {searchResults && <CardDisplay card={searchResults} />}
-        </div>
+        </>
     );
-
 };

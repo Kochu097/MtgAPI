@@ -1,7 +1,13 @@
-import {Menu, X} from "lucide-react";
+import {BookOpen, Menu, Shuffle, X} from "lucide-react";
 import {MobileMenu} from "../navigation/MobileMenu.jsx";
-import React from "react";
+import React, {useEffect} from "react";
 import {TABS} from "../../constants/tabs.js";
+import {SearchTab} from "./SearchTab.jsx";
+import {useCardSearch} from "../../hooks/useCardSearch.jsx";
+import {useRandomCard} from "../../hooks/useRandomCard.jsx";
+import {useSets} from "../../hooks/useSets.jsx";
+import {RandomTab} from "./RandomTab.jsx";
+import {SetsTab} from "./SetsTab.jsx";
 
 const Overlay = ({ isOpen, setIsOpen }) => (
     isOpen ? (
@@ -12,57 +18,77 @@ const Overlay = ({ isOpen, setIsOpen }) => (
     ) : null
 );
 
-export const Navigation = ({setIsMobileMenuOpen, isMobileMenuOpen, activeTab, setActiveTab}) => {
+export const Navigation = ({activeTab, setActiveTab, setCardsToDisplay}) => {
+
+
+    const searchFeatures = useCardSearch();
+    const randomFeatures = useRandomCard();
+    const setFeatures = useSets();
+
+    const renderTabContent = () => {
+        switch (activeTab) {
+            case 'search':
+                return <SearchTab {...searchFeatures} />;
+            case 'sets':
+                return <SetsTab {...setFeatures} />;
+            default:
+                return null;
+        }
+    };
+
+    useEffect(() => {
+        switch(activeTab) {
+            case 'search':
+                setCardsToDisplay(searchFeatures.searchResults);
+                break;
+            case 'sets':
+                setCardsToDisplay(setFeatures.setCards);
+                break;
+            default:
+                setCardsToDisplay(null);
+        }
+    }, [activeTab, searchFeatures.searchResults, setFeatures.setCards]);
+
     return (
-        <nav className="relative mb-8">
-            {/* Mobile Menu Button */}
-            <div className="lg:hidden flex justify-end mb-4">
-                <button
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="p-2 text-white bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
-                >
-                    {isMobileMenuOpen ? (
-                        <X className="w-6 h-6" />
-                    ) : (
-                        <Menu className="w-6 h-6" />
-                    )}
-                </button>
-            </div>
+        <>
+            <nav className="relative mb-8">
+                {/* Desktop Menu */}
+                    <div className="bg-[#111415]/95 rounded-xl p-6 shadow-lg w-full flex flex-col items-center">
+                        <div className="mb-6 w-full">
+                            {renderTabContent()}
+                        </div>
 
-            {/* Overlay */}
-            <Overlay isOpen={isMobileMenuOpen} setIsOpen={setIsMobileMenuOpen} />
-
-            {/* Mobile Menu Dropdown */}
-            <MobileMenu
-                tabs={TABS}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                isOpen={isMobileMenuOpen}
-                setIsOpen={setIsMobileMenuOpen}
-            />
-
-            {/* Desktop Menu */}
-            <div className="hidden lg:flex justify-center">
-                <div className="bg-slate-800 rounded-xl p-1 shadow-lg inline-flex">
-                    {TABS.map(tab => {
-                        const Icon = tab.icon;
-                        return (
+                        <div className="p-1 inline-flex">
+                            {TABS.map(tab => {
+                                const Icon = tab.icon;
+                                return (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 ${
+                                            activeTab === tab.id
+                                                ? 'bg-purple-600 shadow-lg'
+                                                : 'text-slate-300 hover:bg-slate-600'
+                                        }`}
+                                    >
+                                        <Icon className="w-4 h-4" />
+                                        {tab.label}
+                                    </button>
+                                );
+                            })}
                             <button
-                                key={tab.id}
-                                onClick={() => setActiveTab(tab.id)}
-                                className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg transition-all duration-200 ${
-                                    activeTab === tab.id
-                                        ? 'bg-purple-600 text-white shadow-lg'
-                                        : 'text-slate-300 hover:text-white hover:bg-slate-700'
-                                }`}
+                                onClick={() => {
+                                    randomFeatures.handleRandomCard();
+                                    setCardsToDisplay(randomFeatures.randomCard);
+                                }}
+                                className={`inline-flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 text-slate-300 hover:bg-slate-600 `}
                             >
-                                <Icon className="w-5 h-5" />
-                                {tab.label}
+                                <Shuffle className="w-4 h-4" />
+                                Random Card
                             </button>
-                        );
-                    })}
-                </div>
-            </div>
-        </nav>
+                        </div>
+                    </div>
+            </nav>
+        </>
     )
 }

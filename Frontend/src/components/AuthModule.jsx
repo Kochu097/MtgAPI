@@ -93,7 +93,7 @@ const AuthModule = () => {
                                     />
                                 </label>
                             </div>
-                            <span className="text-white">{user.email}</span>
+                            <span >{user.email}</span>
                             <button
                                 onClick={logout}
                                 className="p-2 hover:bg-slate-700 rounded-lg transition-colors"
@@ -125,7 +125,7 @@ const AuthModule = () => {
             {/* Auth form */}
             <div className={`${isOpen ? 'block' : 'hidden'} md:block clear-both`}>
                 <div className="bg-slate-800 rounded-xl shadow-lg p-6 border border-slate-700 w-80">
-                    <h2 className="text-xl font-bold text-white mb-4">
+                    <h2 className="text-xl font-bold mb-4">
                         {isLogin ? 'Login' : 'Register'}
                     </h2>
 
@@ -143,7 +143,7 @@ const AuthModule = () => {
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 bg-slate-700 text-white rounded-lg border border-slate-600 focus:border-purple-500 focus:outline-none"
+                                    className="w-full pl-10 pr-4 py-2 bg-slate-700 rounded-lg border border-slate-600 focus:border-purple-500 focus:outline-none"
                                     placeholder="Email"
                                     required
                                 />
@@ -157,7 +157,7 @@ const AuthModule = () => {
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 bg-slate-700 text-white rounded-lg border border-slate-600 focus:border-purple-500 focus:outline-none"
+                                    className="w-full pl-10 pr-4 py-2 bg-slate-700 rounded-lg border border-slate-600 focus:border-purple-500 focus:outline-none"
                                     placeholder="Password"
                                     required
                                 />
@@ -167,7 +167,7 @@ const AuthModule = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
+                            className="w-full px-4 py-2 bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
                         >
                             {loading ? (
                                 'Processing...'
@@ -188,7 +188,7 @@ const AuthModule = () => {
                     <div className="mt-4">
                         <button
                             onClick={handleGoogleLogin}
-                            className="w-full px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors flex items-center justify-center gap-2"
+                            className="w-full px-4 py-2 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors flex items-center justify-center gap-2"
                         >
                             <Chrome className="w-5 h-5" /> {/* Changed from Google to Chrome */}
                             Continue with Google
@@ -197,7 +197,7 @@ const AuthModule = () => {
 
                     <button
                         onClick={() => setIsLogin(!isLogin)}
-                        className="w-full mt-4 text-sm text-slate-400 hover:text-white transition-colors"
+                        className="w-full mt-4 text-sm text-slate-400 hover:transition-colors"
                     >
                         {isLogin ? "Don't have an account? Register" : "Already have an account? Login"}
                     </button>
