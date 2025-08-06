@@ -68,7 +68,7 @@ export const Navigation = ({activeTab, setActiveTab, setCardsToDisplay}) => {
                                         className={`inline-flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 ${
                                             activeTab === tab.id
                                                 ? 'bg-purple-600 shadow-lg'
-                                                : 'text-slate-300 hover:bg-slate-600'
+                                                : ' hover:bg-[#272927]'
                                         }`}
                                     >
                                         <Icon className="w-4 h-4" />
@@ -81,7 +81,7 @@ export const Navigation = ({activeTab, setActiveTab, setCardsToDisplay}) => {
                                     randomFeatures.handleRandomCard();
                                     setCardsToDisplay(randomFeatures.randomCard);
                                 }}
-                                className={`inline-flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 text-slate-300 hover:bg-slate-600 `}
+                                className={`inline-flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200  hover:bg-[#272927] `}
                             >
                                 <Shuffle className="w-4 h-4" />
                                 Random Card

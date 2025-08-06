@@ -7,7 +7,7 @@ export const SetsTab = ({selectedSet, setSelectedSet, allSets, setCards}) => {
             <select
                 value={selectedSet}
                 onChange={(e) => setSelectedSet(e.target.value)}
-                className="w-full px-4 py-3 bg-slate-700 rounded-lg border border-slate-600 focus:border-purple-500 focus:outline-none"
+                className="w-full px-4 py-3 bg-[#272927] rounded-lg border border-[#beb8ab] focus:border-purple-500 focus:outline-none"
             >
                 <option value="">Select a set...</option>
                 {allSets.map(set => (
@@ -18,11 +18,11 @@ export const SetsTab = ({selectedSet, setSelectedSet, allSets, setCards}) => {
             </select>
 
             {/*{setCards != null && setCards.length > 0 && (*/}
-            {/*    <div className="bg-slate-800 rounded-xl p-6 shadow-lg">*/}
+            {/*    <div className="bg-[#272927] rounded-xl p-6 shadow-lg">*/}
             {/*        <h3 className="text-xl font-bold mb-4">Cards in Set ({setCards.length})</h3>*/}
             {/*        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">*/}
             {/*            {setCards.map((card, index) => (*/}
-            {/*                <div key={index} className="bg-slate-700 rounded-lg p-4 border border-slate-600 hover:bg-slate-600 transition-colors cursor-pointer">*/}
+            {/*                <div key={index} className="bg-[#272927] rounded-lg p-4 border border-[#beb8ab] hover:bg-[#272927] transition-colors cursor-pointer">*/}
             {/*                    <h4 className="font-semibold mb-2">{card.name}</h4>*/}
             {/*                    <div className="flex items-center gap-2 mb-2">*/}
             {/*              <span className={`px-2 py-1 rounded text-xs ${*/}
@@ -33,11 +33,11 @@ export const SetsTab = ({selectedSet, setSelectedSet, allSets, setCards}) => {
             {/*                {card.rarity}*/}
             {/*              </span>*/}
             {/*                        {card.cmc !== undefined && (*/}
-            {/*                            <span className="text-slate-400 text-sm">CMC: {card.cmc}</span>*/}
+            {/*                            <span className=" text-sm">CMC: {card.cmc}</span>*/}
             {/*                        )}*/}
             {/*                    </div>*/}
             {/*                    {card.type_line && (*/}
-            {/*                        <p className="text-slate-300 text-sm">{card.type_line}</p>*/}
+            {/*                        <p className=" text-sm">{card.type_line}</p>*/}
             {/*                    )}*/}
             {/*                </div>*/}
             {/*            ))}*/}

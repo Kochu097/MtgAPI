@@ -4,7 +4,7 @@ import {TABS} from "../../constants/tabs.js";
 export const MobileMenu = ({activeTab, setActiveTab, isOpen, setIsOpen }) => {
     return (
         <div className={`lg:hidden ${isOpen ? 'block' : 'hidden'} fixed top-20 right-4 left-4 z-50`}>
-            <div className="bg-slate-800 rounded-xl shadow-lg p-2 border border-slate-700">
+            <div className="bg-[#272927] rounded-xl shadow-lg p-2 border border-[#beb8ab]">
                 {TABS.map(tab => {
                     const Icon = tab.icon;
                     return (
@@ -17,7 +17,7 @@ export const MobileMenu = ({activeTab, setActiveTab, isOpen, setIsOpen }) => {
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                                 activeTab === tab.id
                                     ? 'bg-purple-600'
-                                    : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                                    : ' hover:bg-[#272927]'
                             }`}
                         >
                             <Icon className="w-5 h-5" />

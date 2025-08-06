@@ -23,7 +23,7 @@ const Navbar = () => {
                     <div className="flex items-center justify-between h-16">
                         {/* Logo */}
                         <div className="flex items-center">
-                            <span className="text-2xl font-bold">🔮 MTG</span>
+                            <span className="text-2xl font-bold">Magic Finder</span>
                         </div>
 
                         {/* Desktop Auth Buttons */}
@@ -31,7 +31,7 @@ const Navbar = () => {
                             <div className="hidden md:flex items-center gap-4">
                                 <button
                                     onClick={() => handleAuthClick('login')}
-                                    className="inline-flex items-center gap-2 px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors"
+                                    className="inline-flex items-center gap-2 px-4 py-2 hover:bg-[#272927] rounded-lg transition-colors"
                                 >
                                     <LogIn className="w-5 h-5" />
                                     <span>Login/Register</span>
@@ -44,7 +44,7 @@ const Navbar = () => {
                             <div className="md:hidden">
                                 <button
                                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                    className="p-2 hover:bg-slate-800 rounded-lg"
+                                    className="p-2 hover:bg-[#272927] rounded-lg"
                                 >
                                     {isMenuOpen ? (
                                         <X className="w-6 h-6" />
@@ -72,7 +72,7 @@ const Navbar = () => {
                         <div className="md:hidden py-4 space-y-2">
                             <button
                                 onClick={() => handleAuthClick('login')}
-                                className="w-full inline-flex items-center gap-2 px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors"
+                                className="w-full inline-flex items-center gap-2 px-4 py-2 hover:bg-[#272927] rounded-lg transition-colors"
                             >
                                 <LogIn className="w-5 h-5" />
                                 <span>Login/Register</span>

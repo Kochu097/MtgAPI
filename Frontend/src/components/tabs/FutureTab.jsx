@@ -3,7 +3,7 @@ import React from "react";
 
 export const FutureTab = () => {
     return (
-        <div className="bg-slate-800 rounded-xl p-6 shadow-lg text-center">
+        <div className="bg-[#272927] rounded-xl p-6 shadow-lg text-center">
             <h2 className="text-2xl font-bold mb-4">🚀 Coming Soon</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                 <div className="bg-gradient-to-br from-purple-700 to-blue-700 rounded-lg p-6">

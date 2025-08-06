@@ -5,9 +5,9 @@ import React from "react";
 export const RandomTab = ({ handleRandomCard, loading, randomCard }) => {
     return (
         <>
-            <div className="bg-slate-800 rounded-xl p-6 shadow-lg text-center">
+            <div className="bg-[#272927] rounded-xl p-6 shadow-lg text-center">
                 <h2 className="text-2xl font-bold mb-4">Random Card Generator</h2>
-                <p className="text-slate-300 mb-6">
+                <p className=" mb-6">
                     Discover new cards with our random card endpoint!
                 </p>
                 <button

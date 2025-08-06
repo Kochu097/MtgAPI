@@ -59,19 +59,19 @@ const AuthModule = () => {
     if (user) {
         return (
             <div className="fixed top-20 right-4 z-50">
-                <div className="bg-slate-800 rounded-xl shadow-lg p-6 border border-slate-700 w-80">
+                <div className="bg-[#272927] rounded-xl shadow-lg p-6 border border-[#beb8ab] w-80">
 
                     <div className="fixed top-4 right-4 flex items-center gap-4">
-                    <div className="md:flex items-center gap-2 bg-slate-800 rounded-lg p-2 border border-slate-700">
+                    <div className="md:flex items-center gap-2 bg-[#272927] rounded-lg p-2 border border-[#beb8ab]">
                         {/* Mobile menu button */}
                         <button
                             onClick={toggleMenu}
-                            className="md:hidden p-2 hover:bg-slate-700 rounded-lg transition-colors"
+                            className="md:hidden p-2 hover:bg-[#272927] rounded-lg transition-colors"
                         >
                             {isOpen ? (
-                                <X className="w-5 h-5 text-slate-300" />
+                                <X className="w-5 h-5 " />
                             ) : (
-                                <Menu className="w-5 h-5 text-slate-300" />
+                                <Menu className="w-5 h-5 " />
                             )}
                         </button>
 
@@ -96,9 +96,9 @@ const AuthModule = () => {
                             <span >{user.email}</span>
                             <button
                                 onClick={logout}
-                                className="p-2 hover:bg-slate-700 rounded-lg transition-colors"
+                                className="p-2 hover:bg-[#272927] rounded-lg transition-colors"
                             >
-                                <LogOut className="w-5 h-5 text-slate-300" />
+                                <LogOut className="w-5 h-5 " />
                             </button>
                         </div>
                     </div>
@@ -113,18 +113,18 @@ const AuthModule = () => {
             {/* Mobile menu button */}
             <button
                 onClick={toggleMenu}
-                className="md:hidden mb-2 p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors float-right"
+                className="md:hidden mb-2 p-2 bg-[#272927] rounded-lg hover:bg-[#272927] transition-colors float-right"
             >
                 {isOpen ? (
-                    <X className="w-5 h-5 text-slate-300" />
+                    <X className="w-5 h-5 " />
                 ) : (
-                    <Menu className="w-5 h-5 text-slate-300" />
+                    <Menu className="w-5 h-5 " />
                 )}
             </button>
 
             {/* Auth form */}
             <div className={`${isOpen ? 'block' : 'hidden'} md:block clear-both`}>
-                <div className="bg-slate-800 rounded-xl shadow-lg p-6 border border-slate-700 w-80">
+                <div className="bg-[#272927] rounded-xl shadow-lg p-6 border border-[#beb8ab] w-80">
                     <h2 className="text-xl font-bold mb-4">
                         {isLogin ? 'Login' : 'Register'}
                     </h2>
@@ -138,12 +138,12 @@ const AuthModule = () => {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
                             <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 " />
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 bg-slate-700 rounded-lg border border-slate-600 focus:border-purple-500 focus:outline-none"
+                                    className="w-full pl-10 pr-4 py-2 bg-[#272927] rounded-lg border border-[#beb8ab] focus:border-purple-500 focus:outline-none"
                                     placeholder="Email"
                                     required
                                 />
@@ -152,12 +152,12 @@ const AuthModule = () => {
 
                         <div>
                             <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 " />
                                 <input
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 bg-slate-700 rounded-lg border border-slate-600 focus:border-purple-500 focus:outline-none"
+                                    className="w-full pl-10 pr-4 py-2 bg-[#272927] rounded-lg border border-[#beb8ab] focus:border-purple-500 focus:outline-none"
                                     placeholder="Password"
                                     required
                                 />
@@ -188,7 +188,7 @@ const AuthModule = () => {
                     <div className="mt-4">
                         <button
                             onClick={handleGoogleLogin}
-                            className="w-full px-4 py-2 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors flex items-center justify-center gap-2"
+                            className="w-full px-4 py-2 bg-[#272927] rounded-lg hover:bg-[#272927] transition-colors flex items-center justify-center gap-2"
                         >
                             <Chrome className="w-5 h-5" /> {/* Changed from Google to Chrome */}
                             Continue with Google
@@ -197,7 +197,7 @@ const AuthModule = () => {
 
                     <button
                         onClick={() => setIsLogin(!isLogin)}
-                        className="w-full mt-4 text-sm text-slate-400 hover:transition-colors"
+                        className="w-full mt-4 text-sm  hover:transition-colors"
                     >
                         {isLogin ? "Don't have an account? Register" : "Already have an account? Login"}
                     </button>

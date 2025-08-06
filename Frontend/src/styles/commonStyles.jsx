@@ -4,6 +4,7 @@ export const buttonStyles = {
 };
 
 export const colorSchema = {
-    background: "#111415",
-    foreground: "#272927"
+    panels: "#111415",
+    background: "#272927",
+    border: "#beb8ab",
 }
