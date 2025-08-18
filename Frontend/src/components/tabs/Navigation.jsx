@@ -44,10 +44,13 @@ export const Navigation = ({activeTab, setActiveTab, setCardsToDisplay}) => {
             case 'sets':
                 setCardsToDisplay(setFeatures.setCards);
                 break;
+            case 'random':
+                setCardsToDisplay(randomFeatures.randomCard);
+                break;
             default:
                 setCardsToDisplay(null);
         }
-    }, [activeTab, searchFeatures.searchResults, setFeatures.setCards]);
+    }, [activeTab, searchFeatures.searchResults, setFeatures.setCards, randomFeatures.randomCard]);
 
     return (
         <>
@@ -79,7 +82,7 @@ export const Navigation = ({activeTab, setActiveTab, setCardsToDisplay}) => {
                             <button
                                 onClick={() => {
                                     randomFeatures.handleRandomCard();
-                                    setCardsToDisplay(randomFeatures.randomCard);
+                                    setActiveTab("random")
                                 }}
                                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200  hover:bg-[#272927] `}
                             >

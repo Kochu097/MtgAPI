@@ -11,7 +11,6 @@ export const useRandomCard = () => {
         setError(null);
 
         try {
-            console.log('Fetching random card...');
             const result = await mtgApi.getRandomCard();
             setRandomCard([result]);
         } catch (err) {
