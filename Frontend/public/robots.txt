@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mtgapi-showcase.onrender.com/sitemap.xml
