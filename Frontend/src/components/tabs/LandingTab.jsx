@@ -33,7 +33,7 @@ export const LandingTab = () => {
                     </div>
                     <div className="text-center">
                         <a
-                            href="https://rapidapi.com/marketplace"
+                            href="https://rapidapi.com/maciek.kochman1/api/magic-the-gathering-ultimate-api"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
