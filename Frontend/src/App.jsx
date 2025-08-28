@@ -1,6 +1,5 @@
 import React from 'react';
 import MTGApiShowcase from './components/MTGApiShowcase';
-import AuthModule from './components/AuthModule';
 import { AuthProvider } from './contexts/AuthContext';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -18,7 +17,6 @@ function App() {
     };
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
-    console.log(app);
   return (
       <AuthProvider>
           <div className="App">

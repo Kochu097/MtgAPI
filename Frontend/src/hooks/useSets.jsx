@@ -63,7 +63,8 @@ export const useSets = () => {
         selectedSet,
         setSelectedSet,
         allSets,
-        setCards
+        setCards,
+        loading,
     };
 
     //selectedSet, setSelectedSet, allSets, setCards

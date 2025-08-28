@@ -1,11 +1,18 @@
-// src/components/card/CardDisplay.jsx
 import React from 'react';
 import { Zap, BookOpen } from 'lucide-react';
 
-export const CardDisplay = ({ cards }) => {
+export const CardDisplay = ({ cards, isLoading }) => {
     return (
         <>
-            <div className="bg-gradient-to-br bg-[#111415]/95 rounded-xl p-6 shadow-2xl border border-[#beb8ab]-700">
+            <div className="relative bg-gradient-to-br bg-[#111415]/95 rounded-xl p-6 shadow-2xl border border-[#beb8ab]-700">
+                {/* Loading overlay */}
+                {isLoading && (
+                    <div className="absolute inset-0 bg-black/50 rounded-xl flex items-center justify-center z-10">
+                        <div className="text-white text-lg">Loading...</div>
+                        {/* Or add a spinner here */}
+                    </div>
+                )}
+
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     {cards && cards.map((card, index) => (
                         <div key={index} className="flex flex-col gap-4">

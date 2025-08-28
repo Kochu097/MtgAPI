@@ -1,6 +1,14 @@
-import { Search, Shuffle, BookOpen, Sparkles } from 'lucide-react';
+import { Search, Package, Star } from 'lucide-react';
 
 export const TABS = [
-    { id: 'search', label: 'Card Search', icon: Search },
-    { id: 'sets', label: 'Browse Sets', icon: BookOpen },
+    {
+        id: 'search',
+        label: 'Search',
+        icon: Search
+    },
+    {
+        id: 'sets',
+        label: 'Sets',
+        icon: Package
+    }
 ];

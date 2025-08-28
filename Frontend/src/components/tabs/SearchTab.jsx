@@ -21,7 +21,7 @@ export const SearchTab = ({ searchTerm, setSearchTerm, handleSearch, handleAutoc
 
     return (
         <>
-            <div className="relative" ref={dropdownRef}>
+            <div className="relative w-full" ref={dropdownRef}>
                 <input
                     type="text"
                     value={searchTerm}

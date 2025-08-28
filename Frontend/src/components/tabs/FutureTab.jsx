@@ -1,10 +1,22 @@
-import {Heart, Sparkles} from "lucide-react";
+import {Heart, Sparkles, Filter} from "lucide-react";
 import React from "react";
 
 export const FutureTab = () => {
     return (
         <div className="bg-[#272927] rounded-xl p-6 shadow-lg text-center">
             <h2 className="text-2xl font-bold mb-4">🚀 Coming Soon</h2>
+
+            {/* Complex Search - Added at the top */}
+            <div className="mb-8">
+                <div className="bg-gradient-to-br from-orange-700 to-red-700 rounded-lg p-6">
+                    <Filter className="w-12 h-12 mx-auto mb-4" />
+                    <h3 className="text-xl font-bold mb-2">Complex Search</h3>
+                    <p className="text-orange-100">
+                        Advanced search with multiple criteria, boolean operators, and complex filtering options for power users
+                    </p>
+                </div>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                 <div className="bg-gradient-to-br from-purple-700 to-blue-700 rounded-lg p-6">
                     <Sparkles className="w-12 h-12 mx-auto mb-4" />
