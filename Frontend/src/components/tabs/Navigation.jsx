@@ -64,7 +64,7 @@ export const Navigation = ({activeTab, setActiveTab, setCardsToDisplay, setIsLoa
         <>
             <nav className="relative mb-8">
                 <div className="bg-[#111415]/95 rounded-xl p-6 shadow-lg w-full items-center grid grid-rows-2 min-h-40">
-                    <div className="mb-1 col-span-1 flex items-center justify-center ">
+                    <div className="mb-1 col-span-1 flex items-center justify-start px-2">
                         {renderTabContent()}
                     </div>
 

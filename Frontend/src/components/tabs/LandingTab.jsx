@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Shuffle, Filter, Heart, Coffee, Github } from 'lucide-react';
+import { Search, Shuffle, Filter, Heart, Coffee, Github, Zap, ExternalLink } from 'lucide-react';
 
 export const LandingTab = () => {
     return (
@@ -12,6 +12,37 @@ export const LandingTab = () => {
                 <p className="text-lg lg:text-xl text-[#c3be9f]/80 leading-relaxed">
                     Discover, explore, and find the perfect Magic: The Gathering cards with our powerful search engine
                 </p>
+            </div>
+
+            {/* API Information Section */}
+            <div className="mb-8">
+                <div className="p-6 bg-gradient-to-r from-blue-900/40 to-purple-900/40 rounded-xl border border-blue-500/20">
+                    <div className="flex items-center justify-center mb-4">
+                        <Zap className="w-8 h-8 text-blue-400 mr-3" />
+                        <h2 className="text-2xl lg:text-3xl font-bold">Powered by RapidAPI</h2>
+                    </div>
+                    <div className="bg-[#272927] rounded-lg p-4 mb-4">
+                        <p className="text-sm lg:text-base leading-relaxed text-center mb-4">
+                            Magic Finder uses the powerful <strong>Magic: The Gathering API</strong> available on RapidAPI to provide you with
+                            comprehensive card data, high-quality images, and detailed information about every Magic card ever printed.
+                        </p>
+                        <p className="text-sm lg:text-base leading-relaxed text-center">
+                            RapidAPI is the world's largest API marketplace, connecting developers to thousands of APIs.
+                            Want to build your own Magic-related project? Check out the API that powers this application!
+                        </p>
+                    </div>
+                    <div className="text-center">
+                        <a
+                            href="https://rapidapi.com/marketplace"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                        >
+                            <ExternalLink className="w-4 h-4" />
+                            Explore Magic APIs on RapidAPI
+                        </a>
+                    </div>
+                </div>
             </div>
 
             {/* Features Grid - Same structure as CardDisplay */}
