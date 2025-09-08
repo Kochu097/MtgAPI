@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MtgCardDto {
+public class CardDto {
     @Schema(description = "Card name", example = "Lightning Bolt")
     private String name;
 

@@ -1,12 +1,12 @@
 package com.kochu.MTG_API;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kochu.MTG_API.DTO.AutocompleteDto;
 import com.kochu.MTG_API.DTO.HealthDto;
-import com.kochu.MTG_API.DTO.MtgCardDto;
+import com.kochu.MTG_API.DTO.CardDto;
 import com.kochu.MTG_API.DTO.SetDto;
 import com.kochu.MTG_API.Exceptions.CardNotFoundException;
 import com.kochu.MTG_API.Exceptions.SetNotFoundException;
+import com.kochu.MTG_API.Services.MtgService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,12 +39,12 @@ public class MtgControllerIntegrationTest {
     @Test
     public void testGetCardByName_Success() {
         // Given
-        MtgCardDto mockCard = createMockCard("Lightning Bolt");
+        CardDto mockCard = createMockCard("Lightning Bolt");
         when(mtgService.getCardByName("Lightning Bolt")).thenReturn(mockCard);
 
         // When
         String url = "http://localhost:" + port + "/api/getCardByName?name=Lightning Bolt";
-        ResponseEntity<MtgCardDto> response = restTemplate.getForEntity(url, MtgCardDto.class);
+        ResponseEntity<CardDto> response = restTemplate.getForEntity(url, CardDto.class);
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -81,12 +81,12 @@ public class MtgControllerIntegrationTest {
     @Test
     public void testGetCardByExactName_Success() {
         // Given
-        MtgCardDto mockCard = createMockCard("Lightning Bolt");
+        CardDto mockCard = createMockCard("Lightning Bolt");
         when(mtgService.getCardByExactName("Lightning Bolt")).thenReturn(mockCard);
 
         // When
         String url = "http://localhost:" + port + "/api/getCardByExactName?exactName=Lightning+Bolt";
-        ResponseEntity<MtgCardDto> response = restTemplate.getForEntity(url, MtgCardDto.class);
+        ResponseEntity<CardDto> response = restTemplate.getForEntity(url, CardDto.class);
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -142,7 +142,7 @@ public class MtgControllerIntegrationTest {
     @Test
     public void testGetCardsBySet_Success() {
         // Given
-        List<MtgCardDto> mockCards = Arrays.asList(
+        List<CardDto> mockCards = Arrays.asList(
                 createMockCard("Lightning Bolt"),
                 createMockCard("Counterspell")
         );
@@ -175,12 +175,12 @@ public class MtgControllerIntegrationTest {
     @Test
     public void testGetRandomCard_Success() {
         // Given
-        MtgCardDto mockCard = createMockCard("Random Card");
+        CardDto mockCard = createMockCard("Random Card");
         when(mtgService.getRandomCard()).thenReturn(mockCard);
 
         // When
         String url = "http://localhost:" + port + "/api/getRandomCard";
-        ResponseEntity<MtgCardDto> response = restTemplate.getForEntity(url, MtgCardDto.class);
+        ResponseEntity<CardDto> response = restTemplate.getForEntity(url, CardDto.class);
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -236,12 +236,12 @@ public class MtgControllerIntegrationTest {
     @Test
     public void testGetCardImageByName_Success() {
         // Given
-        MtgCardDto.ImageUris mockImageUris = createMockImageUris();
+        CardDto.ImageUris mockImageUris = createMockImageUris();
         when(mtgService.getCardImageByName("Lightning Bolt")).thenReturn(mockImageUris);
 
         // When
         String url = "http://localhost:" + port + "/api/getCardImageByName?name=Lightning Bolt";
-        ResponseEntity<MtgCardDto.ImageUris> response = restTemplate.getForEntity(url, MtgCardDto.ImageUris.class);
+        ResponseEntity<CardDto.ImageUris> response = restTemplate.getForEntity(url, CardDto.ImageUris.class);
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -325,12 +325,12 @@ public class MtgControllerIntegrationTest {
     @Test
     public void testSpecialCharactersInCardName() {
         // Given
-        MtgCardDto mockCard = createMockCard("Æther Vial");
+        CardDto mockCard = createMockCard("Æther Vial");
         when(mtgService.getCardByName("Æther Vial")).thenReturn(mockCard);
 
         // When
         String url = "http://localhost:" + port + "/api/getCardByName?name=Æther Vial";
-        ResponseEntity<MtgCardDto> response = restTemplate.getForEntity(url, MtgCardDto.class);
+        ResponseEntity<CardDto> response = restTemplate.getForEntity(url, CardDto.class);
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -353,8 +353,8 @@ public class MtgControllerIntegrationTest {
     }
 
     // Helper methods for creating mock objects
-    private MtgCardDto createMockCard(String name) {
-        MtgCardDto card = new MtgCardDto();
+    private CardDto createMockCard(String name) {
+        CardDto card = new CardDto();
         card.setName(name);
         card.setManaCost("{R}");
         card.setTypeLine("Instant");
@@ -366,7 +366,7 @@ public class MtgControllerIntegrationTest {
         card.setFlavorText("The sparks flew...");
 
         // Set up prices
-        MtgCardDto.Prices prices = new MtgCardDto.Prices();
+        CardDto.Prices prices = new CardDto.Prices();
         prices.usd = "0.50";
         prices.eur = "0.45";
         card.setPrices(prices);
@@ -377,8 +377,8 @@ public class MtgControllerIntegrationTest {
         return card;
     }
 
-    private MtgCardDto.ImageUris createMockImageUris() {
-        MtgCardDto.ImageUris imageUris = new MtgCardDto.ImageUris();
+    private CardDto.ImageUris createMockImageUris() {
+        CardDto.ImageUris imageUris = new CardDto.ImageUris();
         imageUris.small = "https://example.com/small.jpg";
         imageUris.normal = "https://example.com/normal.jpg";
         imageUris.large = "https://example.com/large.jpg";

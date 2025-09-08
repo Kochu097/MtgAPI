@@ -1,9 +1,9 @@
-package com.kochu.MTG_API;
+package com.kochu.MTG_API.Services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kochu.MTG_API.DTO.AutocompleteDto;
-import com.kochu.MTG_API.DTO.MtgCardDto;
+import com.kochu.MTG_API.DTO.CardDto;
 import com.kochu.MTG_API.DTO.SetDto;
 import com.kochu.MTG_API.Exceptions.CardNotFoundException;
 import com.kochu.MTG_API.Exceptions.SetNotFoundException;
@@ -41,11 +41,11 @@ public class MtgService {
     }
 
     @Cacheable("cardsTheName")
-    public MtgCardDto getCardByName(String name) {
+    public CardDto getCardByName(String name) {
         try {
             String url = "https://api.scryfall.com/cards/named?fuzzy=" + URLEncoder.encode(name, StandardCharsets.UTF_8);
             ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class);
-            return mapper.readValue(response.getBody(), MtgCardDto.class);
+            return mapper.readValue(response.getBody(), CardDto.class);
 
         } catch (HttpClientErrorException.NotFound e) {
             logger.error("Card not found under a name: {} {}", name, e.getMessage());
@@ -57,16 +57,16 @@ public class MtgService {
     }
 
     @Cacheable("cardsImagesByName")
-    public MtgCardDto.ImageUris getCardImageByName(String name) {
+    public CardDto.ImageUris getCardImageByName(String name) {
         return getCardByName(name).getImageUris();
     }
 
     @Cacheable("cardsByExactName")
-    public MtgCardDto getCardByExactName(String name) {
+    public CardDto getCardByExactName(String name) {
         try {
             String url = "https://api.scryfall.com/cards/named?exact=" + URLEncoder.encode(name, StandardCharsets.UTF_8);
             ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class);
-            return mapper.readValue(response.getBody(), MtgCardDto.class);
+            return mapper.readValue(response.getBody(), CardDto.class);
 
         } catch (HttpClientErrorException.NotFound e) {
             logger.error("Card not found under a name: {} {}", name, e.getMessage());
@@ -110,11 +110,11 @@ public class MtgService {
         }
     }
 
-    public MtgCardDto getRandomCard() {
+    public CardDto getRandomCard() {
         try {
             String url = "https://api.scryfall.com/cards/random";
             ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class);
-            return mapper.readValue(response.getBody(), MtgCardDto.class);
+            return mapper.readValue(response.getBody(), CardDto.class);
 
         } catch (HttpClientErrorException.NotFound e) {
             logger.error("Random Card not found: {}", e.getMessage());
@@ -154,7 +154,7 @@ public class MtgService {
     }
 
     @Cacheable("cardsByCode")
-    public List<MtgCardDto> getCardsBySetCode(String setcode) {
+    public List<CardDto> getCardsBySetCode(String setcode) {
         try {
             String url = UriComponentsBuilder.fromUriString("https://api.scryfall.com/cards/search")
                     .queryParam("q", "set:"+setcode)
@@ -169,9 +169,9 @@ public class MtgService {
                 throw new RuntimeException("Unexpected response format: 'data' field not found or is not an array");
             }
 
-            List<MtgCardDto> cards = new ArrayList<>();
+            List<CardDto> cards = new ArrayList<>();
             for (JsonNode cardNode : dataNode) {
-                MtgCardDto card = mapper.treeToValue(cardNode, MtgCardDto.class);
+                CardDto card = mapper.treeToValue(cardNode, CardDto.class);
                 cards.add(card);
             }
 
