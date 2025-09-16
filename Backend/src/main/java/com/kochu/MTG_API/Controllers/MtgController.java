@@ -4,6 +4,10 @@ import com.kochu.MTG_API.DTO.AutocompleteDto;
 import com.kochu.MTG_API.DTO.HealthDto;
 import com.kochu.MTG_API.DTO.CardDto;
 import com.kochu.MTG_API.DTO.SetDto;
+import com.kochu.MTG_API.Enums.MtgColorsEnum;
+import com.kochu.MTG_API.Enums.MtgDeckBudgetEnum;
+import com.kochu.MTG_API.Enums.MtgPlayFormatEnum;
+import com.kochu.MTG_API.Enums.MtgPlaystyleEnum;
 import com.kochu.MTG_API.Services.MtgService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -77,6 +83,30 @@ public class MtgController {
     public ResponseEntity<List<SetDto>> getAllSets() {
         List<SetDto> sets = mtgService.getAllSets();
         return ResponseEntity.ok(sets);
+    }
+
+    @GetMapping(path = "/getAvailableColors", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MtgColorsEnum>> getAvailableColors() {
+        List<MtgColorsEnum> availableColors = Arrays.stream(MtgColorsEnum.values()).toList();
+        return ResponseEntity.ok(availableColors);
+    }
+
+    @GetMapping(path = "getAvailableBudgets", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MtgDeckBudgetEnum>> getAvailableBudgets() {
+        List<MtgDeckBudgetEnum> availableBudgets = Arrays.stream(MtgDeckBudgetEnum.values()).toList();
+        return ResponseEntity.ok(availableBudgets);
+    }
+
+    @GetMapping(path = "getAvailablePlayFormats", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MtgPlayFormatEnum>> getAvailablePlayFormats() {
+        List<MtgPlayFormatEnum> availablePlayFormats = Arrays.stream(MtgPlayFormatEnum.values()).toList();
+        return ResponseEntity.ok(availablePlayFormats);
+    }
+
+    @GetMapping(path = "getAvailablePlaystyles", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MtgPlaystyleEnum>> getAvailablePlaystyles() {
+        List<MtgPlaystyleEnum> availablePlaystyles = Arrays.stream(MtgPlaystyleEnum.values()).toList();
+        return ResponseEntity.ok(availablePlaystyles);
     }
 
     @Operation(summary = "Health check", description = "Returns current server status and timestamp.")
