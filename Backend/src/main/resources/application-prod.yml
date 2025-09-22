@@ -11,7 +11,7 @@ spring:
     caffeine:
       spec: maximumSize=500,expireAfterWrite=24h
 cors:
-  allowed-origins: "https://magic-the-gathering-ultimate-api.p.rapidapi.com,https://mtgapi-showcase.onrender.com"
+  allowed-origins: "https://magic-the-gathering-ultimate-api.p.rapidapi.com,https://magic-finder.com"
 logging:
   level:
     root: INFO                   # Global log level
