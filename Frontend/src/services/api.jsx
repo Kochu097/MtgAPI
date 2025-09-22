@@ -1,9 +1,22 @@
 // src/services/api.js
+import {useAuth} from "../contexts/AuthContext.jsx";
+
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://mtgapi.onrender.com/api';
+const { authToken } = useAuth();
 
 export const mtgApi = {
     async makeRequest(endpoint) {
-        const response = await fetch(`${API_BASE}${endpoint}`);
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+        // Add Authorization header if token is available
+        if (authToken) {
+            headers['Authorization'] = `Bearer ${authToken}`;
+        }
+
+        const response = await fetch(`${API_BASE}${endpoint}`, {
+            headers: headers,
+        });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

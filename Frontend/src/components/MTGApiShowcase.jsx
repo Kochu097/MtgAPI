@@ -15,12 +15,12 @@ import {SetsTab} from "./tabs/SetsTab.jsx";
 import {DeckBuilderTab} from "./tabs/DeckBuilderTab.jsx";
 
 const MTGApiShowcase = () => {
-  const [activeTab, setActiveTab] = useState('landing'); // Start with landing
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cardsToDisplay, setCardsToDisplay] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const isMobile = useIsMobile();
-  const searchFeatures = useCardSearch();
+    const [activeTab, setActiveTab] = useState('landing'); // Start with landing
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [cardsToDisplay, setCardsToDisplay] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const isMobile = useIsMobile();
+    const searchFeatures = useCardSearch();
     const randomFeatures = useRandomCard();
     const setFeatures = useSets();
 
