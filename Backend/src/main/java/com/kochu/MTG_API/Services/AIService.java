@@ -2,7 +2,9 @@ package com.kochu.MTG_API.Services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kochu.MTG_API.Properties.AiProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -19,17 +21,15 @@ import java.util.Map;
 @Service
 public class AIService {
 
-    private final String apiKey = System.getenv("OPENAI_API_KEY");
-    private final String model = "gpt-3.5-turbo";
 
+    @Autowired
+    private AiProperties properties;
     private final HttpClient httpClient;
     private final ObjectMapper mapper;
 
     public AIService() {
-        httpClient = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(15))
-                .build();
-        mapper = new ObjectMapper();
+        this(HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(15)).build(),
+            new ObjectMapper());
     }
 
     public AIService(HttpClient httpClient, ObjectMapper mapper) {
@@ -37,16 +37,16 @@ public class AIService {
         this.mapper = mapper;
     }
 
-    public String callAI(String prompt) throws Exception {
+    public String callAI(String content, String prompt) throws Exception {
         Map<String, Object> body = new HashMap<>();
-        body.put("model", model);
+        body.put("model", properties.getModel());
         body.put("temperature", 0.7);
 
         // Chat messages
         List<Map<String, String>> messages = List.of(
                 Map.of(
                         "role", "system",
-                        "content", "You are an expert Magic: The Gathering deck builder. Provide concise, well-structured decklists suitable for play."
+                        "content", content
                 ),
                 Map.of(
                         "role", "user",
@@ -60,7 +60,7 @@ public class AIService {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.openai.com/v1/chat/completions"))
                 .timeout(Duration.ofSeconds(60))
-                .header("Authorization", "Bearer " + apiKey)
+                .header("Authorization", "Bearer " + properties.getApiKey())
                 .header("Content-Type", "application/json; charset=utf-8")
                 .POST(HttpRequest.BodyPublishers.ofString(json, StandardCharsets.UTF_8))
                 .build();
@@ -77,8 +77,8 @@ public class AIService {
             throw new IllegalStateException("OpenAI returned no choices.");
         }
         JsonNode contentNode = choices.get(0).path("message").path("content");
-        String content = contentNode.isTextual() ? contentNode.asText() : contentNode.toString();
-        return content == null || content.isBlank() ? "(No content returned)" : content.trim();
+        String responseContent = contentNode.isTextual() ? contentNode.asText() : contentNode.toString();
+        return responseContent == null || responseContent.isBlank() ? "(No content in response was returned)" : responseContent.trim();
 
     }
 

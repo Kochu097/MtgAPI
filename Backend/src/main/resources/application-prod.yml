@@ -28,3 +28,7 @@ logging:
     rollingpolicy:
       max-file-size: 10MB         # Rotate log file after 10MB
       max-history: 7              # Keep logs for 7 days
+ai:
+  apikey: ${AI_API_KEY}
+  model: ${AI_MODEL}
+  url: ${AI_URL}

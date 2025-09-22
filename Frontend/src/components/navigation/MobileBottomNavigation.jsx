@@ -1,16 +1,12 @@
 import React from 'react';
-import {Search, BookOpen, Shuffle, Zap, House, Star} from 'lucide-react';
+import {NavigationItems} from "../../constants/NavigationItems.jsx";
 
 export const MobileBottomNavigation = ({ activeTab, setActiveTab }) => {
-    const navItems = [
-        { id: 'landing', icon: Star, label: 'Welcome' },
-        { id: 'future', icon: Zap, label: 'Future' },
-    ];
 
     return (
         <div className="fixed bottom-0 left-0 right-0 bg-[#111415]/95 backdrop-blur-lg border-t border-[#beb8ab]/20 z-50">
             <div className="flex justify-around items-center py-2 px-4">
-                {navItems.map((item) => {
+                {NavigationItems.map((item) => {
                     const Icon = item.icon;
                     const isActive = activeTab === item.id;
 

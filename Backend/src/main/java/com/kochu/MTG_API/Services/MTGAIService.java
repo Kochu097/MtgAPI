@@ -49,7 +49,6 @@ public class MTGAIService {
      * then resolves those names from Scryfall into CardDto objects.
      */
     public List<CardDto> createNewDeck(DeckRequest request) {
-        ensureApiKey();
 
         String prompt = buildPrompt(request);
 
@@ -70,15 +69,6 @@ public class MTGAIService {
         } catch (Exception e) {
             log.error("Scryfall fetch failed", e);
             return List.of();
-        }
-    }
-
-    private void ensureApiKey() {
-        if (openAiApiKey == null || openAiApiKey.isBlank()) {
-            openAiApiKey = System.getenv("OPENAI_API_KEY");
-        }
-        if (openAiApiKey == null || openAiApiKey.isBlank()) {
-            throw new IllegalStateException("OpenAI API key not configured. Set 'openai.apiKey' or env OPENAI_API_KEY.");
         }
     }
 
