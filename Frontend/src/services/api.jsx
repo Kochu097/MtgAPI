@@ -2,10 +2,10 @@
 import {useAuth} from "../contexts/AuthContext.jsx";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://mtgapi.onrender.com/api';
-const { authToken } = useAuth();
 
 export const mtgApi = {
     async makeRequest(endpoint) {
+        const { authToken } = useAuth();
         const headers = {
             'Content-Type': 'application/json',
         };

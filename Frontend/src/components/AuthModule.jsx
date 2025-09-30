@@ -104,6 +104,7 @@ const AuthModule = () => {
                     </div>
                 </div>
                     {/*Add menu when logged in*/}
+                    {authToken}
                 </div>
             </div>
         );

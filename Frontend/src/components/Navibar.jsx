@@ -8,7 +8,7 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAuthOpen, setIsAuthOpen] = useState(false);
     const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
-    const { user } = useAuth();
+    const { user, authToken } = useAuth();
 
     const handleAuthClick = (mode) => {
         setAuthMode(mode);
@@ -102,6 +102,7 @@ const Navbar = () => {
                     <AuthModule
                         onClose={() => setIsAuthOpen(false)}
                         defaultIsLogin={authMode === 'login'}
+
                     />
                 </>
             )}

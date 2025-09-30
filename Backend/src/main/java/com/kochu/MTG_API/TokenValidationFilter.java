@@ -1,5 +1,7 @@
 package com.kochu.MTG_API;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,13 +57,14 @@ public class TokenValidationFilter extends OncePerRequestFilter {
     }
 
     private boolean isValidToken(String token) {
-        // Implement your token validation logic here
-        // For example:
-        // - Verify JWT signature
-        // - Check token expiration
-        // - Validate claims
-        // Return true if token is valid, false otherwise
-        return false; // Replace with actual implementation
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        try {
+            auth.verifyIdToken(token);
+        } catch (FirebaseAuthException e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
