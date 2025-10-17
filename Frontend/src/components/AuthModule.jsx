@@ -11,7 +11,7 @@ const AuthModule = () => {
     const [avatar, setAvatar] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
 
-    const { login, authToken, register, loginWithGoogle, logout, user, uploadAvatar } = useAuth();
+    const { login, register, loginWithGoogle, logout, user, uploadAvatar } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -104,7 +104,6 @@ const AuthModule = () => {
                     </div>
                 </div>
                     {/*Add menu when logged in*/}
-                    {authToken}
                 </div>
             </div>
         );

@@ -31,7 +31,7 @@ public class TokenValidationFilter extends OncePerRequestFilter {
         }
 
         // Check if the request has an Authorization header
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+        if (authHeader != null && authHeader.startsWith("Bearer ") && request.getRequestURI().contains("/ai/")) {
             String token = authHeader.substring(7); // Remove "Bearer " prefix
 
             try {

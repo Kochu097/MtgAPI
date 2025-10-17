@@ -82,18 +82,43 @@ public class MTGAIService {
                 : req.getPlaystyle().name();
         String budget = req.getBudget() != null ? req.getBudget().name() : "Budget";
 
-        // Your template plus strict JSON output requirement
+
+        // Determine deck size based on format
+        int mainboardSize;
+        int sideboardSize;
+        boolean isCommanderFormat = "Commander".equalsIgnoreCase(format);
+
+        if (isCommanderFormat) {
+            mainboardSize = 100; // 1 commander + 99 cards
+            sideboardSize = 0;   // Commander has no sideboard
+        } else {
+            mainboardSize = 60;  // Standard, Modern, Legacy, Vintage, Pioneer
+            sideboardSize = 15;  // Typical sideboard size
+        }
+
+        int totalCards = mainboardSize + sideboardSize;
+
+        // Build format-specific instructions
+        String deckSizeInstructions = isCommanderFormat
+                ? "- Provide exactly 100 unique card names (including 1 legendary creature as commander).\n" +
+                "- No sideboard for Commander format.\n" +
+                "- All cards except basic lands must be singleton (only one copy)."
+                : "- Provide a " + mainboardSize + "-card mainboard and a " + sideboardSize + "-card sideboard.\n" +
+                "- Total of " + totalCards + " unique card names.\n" +
+                "- Consider typical deck ratios: ~24 lands, ~24 creatures/threats, ~12 spells/interaction.";
+
         return "Create a Magic: The Gathering deck with these parameters:\n" +
                 "- Format: " + format + "\n" +
                 "- Colors: " + colors + "\n" +
                 "- Playstyle: " + playstyle + "\n" +
                 "- Budget: " + budget + "\n\n" +
                 "Return ONLY strict JSON with this shape (no extra text):\n" +
-                "{ \"cards\": [\"Card Name 1\", \"Card Name 2\", \"Card Name 3\", ... ] }\n" +
+                "{ \"cards\": [\"Card Name 1\", \"Card Name 2\", \"Card Name 3\", ... ] }\n\n" +
                 "Rules:\n" +
                 "- Use real, correctly spelled English card names that can be resolved on Scryfall.\n" +
-                "- Provide up to 75 unique names total (mainboard and sideboard combined).\n" +
-                "- Do not include counts or annotations; names only.";
+                deckSizeInstructions + "\n" +
+                "- Do not include counts or annotations; names only.\n" +
+                "- Ensure the deck is legal and competitive for " + format + " format.";
     }
 
     private List<String> callOpenAIForCardNames(String prompt) throws Exception {

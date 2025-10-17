@@ -1,60 +1,49 @@
 import React, { useState } from 'react';
 import { Wand2, Palette, Clock, DollarSign, Sparkles } from 'lucide-react';
 import { CardDisplay } from '../card/CardDisplay.jsx';
-import { AdModal } from '../ads/AdModal.jsx';
-import { useAdService } from '../../hooks/useAdService.jsx';
+import {useCreateNewDeck} from "../../hooks/useCreateNewDeck.jsx";
 
 export const DeckBuilderTab = () => {
     const [formData, setFormData] = useState({
-        playstyle: '',
+        format: '',
         colors: [],
-        playFormat: '',
+        playstyle: '',
         budget: ''
     });
-    const [generatedCards, setGeneratedCards] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [showResults, setShowResults] = useState(false);
-
-    // Ad service integration
-    const {
-        showAd,
-        triggerAdBeforeApiCall,
-        handleAdComplete,
-        handleAdSkip,
-        handleAdCancel
-    } = useAdService();
+    const { handleCreateNewDeck, deckData } = useCreateNewDeck();
 
     const playstyles = [
-        { value: 'aggro', label: 'Aggro', description: 'Fast, aggressive strategy' },
-        { value: 'control', label: 'Control', description: 'Late game dominance' },
-        { value: 'midrange', label: 'Midrange', description: 'Balanced approach' },
-        { value: 'combo', label: 'Combo', description: 'Synergistic interactions' },
-        { value: 'ramp', label: 'Ramp', description: 'Accelerate to big plays' },
-        { value: 'tempo', label: 'Tempo', description: 'Efficient pressure' }
+        { value: 'Aggro', label: 'Aggro', description: 'Fast, aggressive strategy' },
+        { value: 'Control', label: 'Control', description: 'Late game dominance' },
+        { value: 'Midrange', label: 'Midrange', description: 'Balanced approach' },
+        { value: 'Combo', label: 'Combo', description: 'Synergistic interactions' },
+        { value: 'Ramp', label: 'Ramp', description: 'Accelerate to big plays' },
+        { value: 'Tempo', label: 'Tempo', description: 'Efficient pressure' }
     ];
 
     const colors = [
-        { value: 'W', label: 'White', color: '#FFFBD5' },
-        { value: 'U', label: 'Blue', color: '#0E68AB' },
-        { value: 'B', label: 'Black', color: '#150B00' },
-        { value: 'R', label: 'Red', color: '#D3202A' },
-        { value: 'G', label: 'Green', color: '#00733E' }
+        { value: 'White', label: 'White', color: '#FFFBD5' },
+        { value: 'Blue', label: 'Blue', color: '#0E68AB' },
+        { value: 'Black', label: 'Black', color: '#150B00' },
+        { value: 'Red', label: 'Red', color: '#D3202A' },
+        { value: 'Green', label: 'Green', color: '#00733E' }
     ];
 
     const playFormats = [
-        { value: 'standard', label: 'Standard', description: 'Current rotation' },
-        { value: 'modern', label: 'Modern', description: 'Extended card pool' },
-        { value: 'commander', label: 'Commander', description: '100-card singleton' },
-        { value: 'legacy', label: 'Legacy', description: 'Eternal format' },
-        { value: 'vintage', label: 'Vintage', description: 'All cards allowed' },
-        { value: 'pioneer', label: 'Pioneer', description: 'Return to Ravnica+' }
+        { value: 'Standard', label: 'Standard', description: 'Current rotation' },
+        { value: 'Modern', label: 'Modern', description: 'Extended card pool' },
+        { value: 'Commander', label: 'Commander', description: '100-card singleton' },
+        { value: 'Legacy', label: 'Legacy', description: 'Eternal format' },
+        { value: 'Vintage', label: 'Vintage', description: 'All cards allowed' },
+        { value: 'Pioneer', label: 'Pioneer', description: 'Return to Ravnica+' }
     ];
 
     const budgetOptions = [
-        { value: 'budget', label: 'Budget', description: 'Under $50', icon: '💰' },
-        { value: 'moderate', label: 'Moderate', description: '$50 - $150', icon: '💳' },
-        { value: 'competitive', label: 'Competitive', description: '$150 - $300', icon: '🏆' },
-        { value: 'premium', label: 'Premium', description: '$300+', icon: '💎' }
+        { value: 'Budget', label: 'Budget', description: 'Under $50', icon: '💰' },
+        { value: 'Moderate', label: 'Moderate', description: '$50 - $150', icon: '💳' },
+        { value: 'Competitive', label: 'Competitive', description: '$150 - $300', icon: '🏆' },
+        { value: 'Premium', label: 'Premium', description: '$300+', icon: '💎' }
     ];
 
     const handleColorToggle = (colorValue) => {
@@ -66,50 +55,17 @@ export const DeckBuilderTab = () => {
         }));
     };
 
-    // The actual API call function
-    const executeApiCall = async () => {
-        setIsLoading(true);
-        setShowResults(true);
-
-        try {
-            // Replace with your actual API endpoint
-            const response = await fetch('/api/generate-deck', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to generate deck');
-            }
-
-            const data = await response.json();
-            setGeneratedCards(data.cards || []);
-        } catch (error) {
-            console.error('Error generating deck:', error);
-            // For now, set empty array on error
-            setGeneratedCards([]);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!isFormValid) return;
 
-        // Trigger ad before API call
-        const adShown = triggerAdBeforeApiCall(executeApiCall);
+        setIsLoading(true);
+        await handleCreateNewDeck(formData);
+        setIsLoading(false);
 
-        if (!adShown) {
-            // No ad was shown, API call was executed immediately
-            console.log('No ad required, API call executed');
-        }
-        // If ad was shown, the API call will be executed after ad completion
     };
 
-    const isFormValid = formData.playstyle && formData.colors.length > 0 && formData.playFormat && formData.budget;
+    const isFormValid = formData.playstyle && formData.colors.length > 0 && formData.format && formData.budget;
 
     return (
         <div className="space-y-6">
@@ -200,7 +156,7 @@ export const DeckBuilderTab = () => {
                                 <label
                                     key={format.value}
                                     className={`cursor-pointer p-4 rounded-lg border-2 transition-all duration-200 hover:bg-[#1a1b1c] ${
-                                        formData.playFormat === format.value
+                                        formData.format === format.value
                                             ? 'border-[#beb8ab] bg-[#1a1b1c]'
                                             : 'border-[#333] hover:border-[#555]'
                                     }`}
@@ -209,8 +165,8 @@ export const DeckBuilderTab = () => {
                                         type="radio"
                                         name="playFormat"
                                         value={format.value}
-                                        checked={formData.playFormat === format.value}
-                                        onChange={(e) => setFormData(prev => ({ ...prev, playFormat: e.target.value }))}
+                                        checked={formData.format === format.value}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, format: e.target.value }))}
                                         className="sr-only"
                                     />
                                     <div className="font-medium text-[#c3be9f]">{format.label}</div>
@@ -279,16 +235,9 @@ export const DeckBuilderTab = () => {
                 </form>
             </div>
 
-            {/* Ad Modal */}
-            <AdModal
-                isOpen={showAd}
-                onAdComplete={handleAdComplete}
-                onSkip={handleAdSkip}
-            />
-
             {/* Results Section */}
-            {showResults && (
-                <CardDisplay cards={generatedCards} isLoading={isLoading} />
+            {deckData && deckData.deck && (
+                <CardDisplay cards={deckData.deck} isLoading={isLoading} />
             )}
         </div>
     );

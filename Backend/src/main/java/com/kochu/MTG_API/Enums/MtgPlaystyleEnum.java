@@ -1,7 +1,10 @@
 package com.kochu.MTG_API.Enums;
 
 public enum MtgPlaystyleEnum {
-    Casual,
-    Competitive,
-    cEDH
+    Aggro,
+    Control,
+    Midrange,
+    Combo,
+    Ramp,
+    Tempo
 }

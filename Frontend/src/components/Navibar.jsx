@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import {Menu, X, LogIn, UserPlus, LogOut} from 'lucide-react';
+import {Menu, X, LogIn} from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModule from './AuthModule';
 
@@ -8,18 +8,13 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAuthOpen, setIsAuthOpen] = useState(false);
     const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
-    const { user, authToken } = useAuth();
+    const { user } = useAuth();
 
     const handleAuthClick = (mode) => {
         setAuthMode(mode);
         setIsAuthOpen(true);
         setIsMenuOpen(false);
     };
-
-    const handleMobileMenuClick = () => {
-        setIsMenuOpen(!isMenuOpen);
-        setIsAuthOpen(false);
-    }
 
     return (
         <>
