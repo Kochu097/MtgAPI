@@ -1,6 +1,6 @@
-package com.kochu.MTG_API.Enums;
+package com.kochu.MTG_API.API.Enums;
 
-public enum MtgPlayFormatEnum {
+public enum MtgPlayFormat {
     Standard,
     Modern,
     Commander,

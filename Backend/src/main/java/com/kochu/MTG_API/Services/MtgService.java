@@ -2,11 +2,11 @@ package com.kochu.MTG_API.Services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kochu.MTG_API.DTO.AutocompleteDto;
-import com.kochu.MTG_API.DTO.CardDto;
-import com.kochu.MTG_API.DTO.SetDto;
-import com.kochu.MTG_API.Exceptions.CardNotFoundException;
-import com.kochu.MTG_API.Exceptions.SetNotFoundException;
+import com.kochu.MTG_API.API.DTO.AutocompleteDto;
+import com.kochu.MTG_API.API.DTO.CardDto;
+import com.kochu.MTG_API.API.DTO.SetDto;
+import com.kochu.MTG_API.Services.Exceptions.CardNotFoundException;
+import com.kochu.MTG_API.Services.Exceptions.SetNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;

@@ -1,6 +1,6 @@
-package com.kochu.MTG_API.Exceptions;
+package com.kochu.MTG_API.Services.Exceptions;
 
-import com.kochu.MTG_API.DTO.ApiErrorDto;
+import com.kochu.MTG_API.API.DTO.ApiErrorDto;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -31,12 +29,12 @@ public class GlobalExceptionHandler {
             ConstraintViolationException.class,
             HttpMessageNotReadableException.class
     })
-    public ResponseEntity<ApiErrorDto> handleInvalidInput(Exception ex) {
+    public ResponseEntity<ApiErrorDto> handleInvalidInput() {
         return buildErrorResponse("Invalid request parameters.", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorDto> handleGeneralError(Exception ex) {
+    public ResponseEntity<ApiErrorDto> handleGeneralError() {
         return buildErrorResponse("General Error.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

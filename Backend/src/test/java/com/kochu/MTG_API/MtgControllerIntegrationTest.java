@@ -1,12 +1,13 @@
 package com.kochu.MTG_API;
 
-import com.kochu.MTG_API.DTO.AutocompleteDto;
-import com.kochu.MTG_API.DTO.HealthDto;
-import com.kochu.MTG_API.DTO.CardDto;
-import com.kochu.MTG_API.DTO.SetDto;
-import com.kochu.MTG_API.Exceptions.CardNotFoundException;
-import com.kochu.MTG_API.Exceptions.SetNotFoundException;
+import com.kochu.MTG_API.API.DTO.AutocompleteDto;
+import com.kochu.MTG_API.API.DTO.HealthDto;
+import com.kochu.MTG_API.API.DTO.CardDto;
+import com.kochu.MTG_API.API.DTO.SetDto;
+import com.kochu.MTG_API.Services.Exceptions.CardNotFoundException;
+import com.kochu.MTG_API.Services.Exceptions.SetNotFoundException;
 import com.kochu.MTG_API.Services.MtgService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -205,7 +207,7 @@ public class MtgControllerIntegrationTest {
     @Test
     public void testAutocomplete_Success() {
         // Given
-        AutocompleteDto mockAutocomplete = createMockAutocomplete("Lightning");
+        AutocompleteDto mockAutocomplete = createMockAutocomplete();
         when(mtgService.autocomplete("Lightning")).thenReturn(mockAutocomplete);
 
         // When
@@ -318,7 +320,7 @@ public class MtgControllerIntegrationTest {
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         // Then
-        assertThat(response.getHeaders().getContentType().toString())
+        assertThat(Objects.requireNonNull(response.getHeaders().getContentType()).toString())
                 .contains("application/json");
     }
 
@@ -334,6 +336,7 @@ public class MtgControllerIntegrationTest {
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertNotNull(response.getBody());
         assertThat(response.getBody().getName()).isEqualTo("Æther Vial");
     }
 
@@ -349,6 +352,7 @@ public class MtgControllerIntegrationTest {
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertNotNull(response.getBody());
         assertThat(response.getBody().getCode()).isEqualTo("M21");
     }
 
@@ -402,7 +406,7 @@ public class MtgControllerIntegrationTest {
         return set;
     }
 
-    private AutocompleteDto createMockAutocomplete(String query) {
+    private AutocompleteDto createMockAutocomplete() {
         AutocompleteDto autocomplete = new AutocompleteDto();
         autocomplete.setTotalValues(3);
         autocomplete.setData(Arrays.asList(

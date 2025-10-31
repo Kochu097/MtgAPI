@@ -2,9 +2,12 @@
 package com.kochu.MTG_API.Configuration;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -46,4 +49,11 @@ public class FirebaseConfig {
             throw new RuntimeException("Error initializing Firebase", e);
         }
     }
+
+    @Bean
+    public Firestore firestore() {
+        logger.info("Creating Firestore bean");
+        return FirestoreClient.getFirestore();
+    }
+
 }

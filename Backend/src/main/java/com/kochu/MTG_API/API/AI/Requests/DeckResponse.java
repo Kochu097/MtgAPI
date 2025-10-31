@@ -1,4 +1,4 @@
-package com.kochu.MTG_API.Controllers.Requests;
+package com.kochu.MTG_API.API.AI.Requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

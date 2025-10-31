@@ -3,9 +3,9 @@ package com.kochu.MTG_API.Services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kochu.MTG_API.Controllers.Requests.DeckRequest;
-import com.kochu.MTG_API.DTO.CardDto;
-import com.kochu.MTG_API.Enums.MtgColorsEnum;
+import com.kochu.MTG_API.API.AI.Requests.DeckRequest;
+import com.kochu.MTG_API.API.DTO.CardDto;
+import com.kochu.MTG_API.API.Enums.MtgColor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -76,7 +76,7 @@ public class MTGAIService {
         String format = req.getFormat() != null ? req.getFormat().name() : "Standard";
         String colors = (req.getColors() == null || req.getColors().isEmpty())
                 ? "Colorless"
-                : req.getColors().stream().map(MtgColorsEnum::name).collect(Collectors.joining(", "));
+                : req.getColors().stream().map(MtgColor::name).collect(Collectors.joining(", "));
         String playstyle = (req.getPlaystyle() == null)
                 ? "Creator's choice"
                 : req.getPlaystyle().name();
@@ -100,9 +100,10 @@ public class MTGAIService {
 
         // Build format-specific instructions
         String deckSizeInstructions = isCommanderFormat
-                ? "- Provide exactly 100 unique card names (including 1 legendary creature as commander).\n" +
-                "- No sideboard for Commander format.\n" +
-                "- All cards except basic lands must be singleton (only one copy)."
+                ? """
+                - Provide exactly 100 unique card names (including 1 legendary creature as commander).
+                - No sideboard for Commander format.
+                - All cards except basic lands must be singleton (only one copy)."""
                 : "- Provide a " + mainboardSize + "-card mainboard and a " + sideboardSize + "-card sideboard.\n" +
                 "- Total of " + totalCards + " unique card names.\n" +
                 "- Consider typical deck ratios: ~24 lands, ~24 creatures/threats, ~12 spells/interaction.";

@@ -1,21 +1,37 @@
-package com.kochu.MTG_API;
+package com.kochu.MTG_API.Configuration;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
+import com.kochu.MTG_API.API.DTO.UserDto;
+import com.kochu.MTG_API.Firestore.FirebaseConnectionException;
+import com.kochu.MTG_API.Services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.lang.NonNullApi;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE) // This ensures our filter runs before CORS filter
 public class TokenValidationFilter extends OncePerRequestFilter {
+
+    private final UserService userService;
+
+    public TokenValidationFilter(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -31,18 +47,25 @@ public class TokenValidationFilter extends OncePerRequestFilter {
         }
 
         // Check if the request has an Authorization header
-        if (authHeader != null && authHeader.startsWith("Bearer ") && request.getRequestURI().contains("/ai/")) {
+        if (!Objects.isNull(authHeader) && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7); // Remove "Bearer " prefix
 
             try {
                 // Add your token validation logic here
-                if (isValidToken(token)) {
+                FirebaseToken decodedToken = isValidToken(token);
+                if (!Objects.isNull(decodedToken)) {
+                    var userId = decodedToken.getUid();
+                    var user = getOrCreateUser(userId);
+
+                    var authentication = new UsernamePasswordAuthenticationToken(user, decodedToken.getUid());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+
                     filterChain.doFilter(request, response);
                 } else {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write("Invalid token");
                 }
-            } catch (Exception e) {
+            } catch (FirebaseConnectionException e) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write("Token validation failed");
             }
@@ -56,15 +79,19 @@ public class TokenValidationFilter extends OncePerRequestFilter {
         }
     }
 
-    private boolean isValidToken(String token) {
+    private UserDto getOrCreateUser(String userId) throws FirebaseConnectionException {
+        return Optional.ofNullable(userService.getUser(userId))
+                .orElse(userService.createNewUser(userId));
+    }
+
+    private FirebaseToken isValidToken(String token) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         try {
-            auth.verifyIdToken(token);
+            return auth.verifyIdToken(token);
         } catch (FirebaseAuthException e) {
-            return false;
+            return null;
         }
-        return true;
     }
 
     @Override

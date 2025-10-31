@@ -1,4 +1,4 @@
-package com.kochu.MTG_API.DTO;
+package com.kochu.MTG_API.API.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

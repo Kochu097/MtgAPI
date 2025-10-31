@@ -1,4 +1,4 @@
-package com.kochu.MTG_API.DTO;
+package com.kochu.MTG_API.API.DTO;
 
 import lombok.Data;
 

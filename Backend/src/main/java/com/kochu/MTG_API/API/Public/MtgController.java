@@ -1,13 +1,14 @@
-package com.kochu.MTG_API.Controllers;
+package com.kochu.MTG_API.API.Public;
 
-import com.kochu.MTG_API.DTO.AutocompleteDto;
-import com.kochu.MTG_API.DTO.HealthDto;
-import com.kochu.MTG_API.DTO.CardDto;
-import com.kochu.MTG_API.DTO.SetDto;
-import com.kochu.MTG_API.Enums.MtgColorsEnum;
-import com.kochu.MTG_API.Enums.MtgDeckBudgetEnum;
-import com.kochu.MTG_API.Enums.MtgPlayFormatEnum;
-import com.kochu.MTG_API.Enums.MtgPlaystyleEnum;
+import com.kochu.MTG_API.API.DTO.AutocompleteDto;
+import com.kochu.MTG_API.API.DTO.HealthDto;
+import com.kochu.MTG_API.API.DTO.CardDto;
+import com.kochu.MTG_API.API.DTO.SetDto;
+import com.kochu.MTG_API.Firestore.UserFirestoreService;
+import com.kochu.MTG_API.API.Enums.MtgColor;
+import com.kochu.MTG_API.API.Enums.MtgDeckBudget;
+import com.kochu.MTG_API.API.Enums.MtgPlayFormat;
+import com.kochu.MTG_API.API.Enums.MtgPlaystyle;
 import com.kochu.MTG_API.Services.MtgService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -86,26 +86,26 @@ public class MtgController {
     }
 
     @GetMapping(path = "/getAvailableColors", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<MtgColorsEnum>> getAvailableColors() {
-        List<MtgColorsEnum> availableColors = Arrays.stream(MtgColorsEnum.values()).toList();
+    public ResponseEntity<List<MtgColor>> getAvailableColors() {
+        List<MtgColor> availableColors = Arrays.stream(MtgColor.values()).toList();
         return ResponseEntity.ok(availableColors);
     }
 
     @GetMapping(path = "getAvailableBudgets", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<MtgDeckBudgetEnum>> getAvailableBudgets() {
-        List<MtgDeckBudgetEnum> availableBudgets = Arrays.stream(MtgDeckBudgetEnum.values()).toList();
+    public ResponseEntity<List<MtgDeckBudget>> getAvailableBudgets() {
+        List<MtgDeckBudget> availableBudgets = Arrays.stream(MtgDeckBudget.values()).toList();
         return ResponseEntity.ok(availableBudgets);
     }
 
     @GetMapping(path = "getAvailablePlayFormats", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<MtgPlayFormatEnum>> getAvailablePlayFormats() {
-        List<MtgPlayFormatEnum> availablePlayFormats = Arrays.stream(MtgPlayFormatEnum.values()).toList();
+    public ResponseEntity<List<MtgPlayFormat>> getAvailablePlayFormats() {
+        List<MtgPlayFormat> availablePlayFormats = Arrays.stream(MtgPlayFormat.values()).toList();
         return ResponseEntity.ok(availablePlayFormats);
     }
 
     @GetMapping(path = "getAvailablePlaystyles", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<MtgPlaystyleEnum>> getAvailablePlaystyles() {
-        List<MtgPlaystyleEnum> availablePlaystyles = Arrays.stream(MtgPlaystyleEnum.values()).toList();
+    public ResponseEntity<List<MtgPlaystyle>> getAvailablePlaystyles() {
+        List<MtgPlaystyle> availablePlaystyles = Arrays.stream(MtgPlaystyle.values()).toList();
         return ResponseEntity.ok(availablePlaystyles);
     }
 

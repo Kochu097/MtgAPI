@@ -1,7 +1,7 @@
-package com.kochu.MTG_API.Controllers;
+package com.kochu.MTG_API.API.AI;
 
-import com.kochu.MTG_API.Controllers.Requests.DeckRequest;
-import com.kochu.MTG_API.DTO.CardDto;
+import com.kochu.MTG_API.API.AI.Requests.DeckRequest;
+import com.kochu.MTG_API.API.DTO.CardDto;
 import com.kochu.MTG_API.Services.MTGAIService;
 import com.kochu.MTG_API.Services.MtgService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,7 +31,7 @@ public class MtgAIController {
     )
     @PostMapping(path = "/createNewDeck", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createNewDeck(@RequestBody DeckRequest deckRequest) {
-        List<CardDto> cards = mtgAIService.createNewDeck(deckRequest);
+//        List<CardDto> cards = mtgAIService.createNewDeck(deckRequest);
         return ResponseEntity.ok(Map.of(
                 "deck", List.of(mtgService.getCardByName("Lightning Bolt")),
                 "tokensRemaining", 0

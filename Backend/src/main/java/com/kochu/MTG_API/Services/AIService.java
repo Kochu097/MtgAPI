@@ -21,7 +21,6 @@ import java.util.Map;
 @Service
 public class AIService {
 
-
     @Autowired
     private AiProperties properties;
     private final HttpClient httpClient;
