@@ -1,11 +1,15 @@
-package com.kochu.MTG_API.Services;
+package com.kochu.MTG_API.API.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kochu.MTG_API.API.AI.Requests.DeckRequest;
 import com.kochu.MTG_API.API.DTO.CardDto;
+import com.kochu.MTG_API.API.DTO.UserDto;
 import com.kochu.MTG_API.API.Enums.MtgColor;
+import com.kochu.MTG_API.API.Service.Exceptions.NotEnoughTokensExceptions;
+import com.kochu.MTG_API.Firestore.FirebaseConnectionException;
+import com.kochu.MTG_API.Firestore.UserFirestoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,8 @@ public class MTGAIService {
 
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
+    private final UserFirestoreService userFirestoreService;
+    private final MtgService mtgService;
 
     @Value("${openai.apiKey:#{null}}")
     private String openAiApiKey;
@@ -33,12 +39,12 @@ public class MTGAIService {
     @Value("${openai.model:gpt-4o-mini}")
     private String openAiModel;
 
-    public MTGAIService() {
-        this(new ObjectMapper());
-    }
+    private final static Integer NEW_DECK_COST = 1;
 
-    public MTGAIService(ObjectMapper objectMapper) {
+    public MTGAIService(ObjectMapper objectMapper, UserFirestoreService userFirestoreService, MtgService mtgService) {
         this.objectMapper = objectMapper;
+        this.userFirestoreService = userFirestoreService;
+        this.mtgService = mtgService;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(15))
                 .build();
@@ -48,28 +54,38 @@ public class MTGAIService {
      * Generates a deck using OpenAI -> returns strict JSON list of card names,
      * then resolves those names from Scryfall into CardDto objects.
      */
-    public List<CardDto> createNewDeck(DeckRequest request) {
+    public List<CardDto> createNewDeck(DeckRequest request, UserDto user) throws FirebaseConnectionException {
 
-        String prompt = buildPrompt(request);
-
-        List<String> cardNames;
-        try {
-            cardNames = callOpenAIForCardNames(prompt);
-        } catch (Exception e) {
-            log.error("OpenAI call failed", e);
-            return List.of();
+        user.setTokens(user.getTokens() - NEW_DECK_COST);
+        if(user.getTokens() < 0) {
+            throw new NotEnoughTokensExceptions("Not enough tokens");
         }
 
-        if (cardNames.isEmpty()) {
-            return List.of();
-        }
+        userFirestoreService.saveUser(user);
 
-        try {
-            return fetchCardsFromScryfall(cardNames);
-        } catch (Exception e) {
-            log.error("Scryfall fetch failed", e);
-            return List.of();
-        }
+        var cards = List.of(mtgService.getRandomCard());
+
+        return cards;
+//        String prompt = buildPrompt(request);
+//
+//        List<String> cardNames;
+//        try {
+//            cardNames = callOpenAIForCardNames(prompt);
+//        } catch (Exception e) {
+//            log.error("OpenAI call failed", e);
+//            return List.of();
+//        }
+//
+//        if (cardNames.isEmpty()) {
+//            return List.of();
+//        }
+//
+//        try {
+//            return fetchCardsFromScryfall(cardNames);
+//        } catch (Exception e) {
+//            log.error("Scryfall fetch failed", e);
+//            return List.of();
+//        }
     }
 
     private String buildPrompt(DeckRequest req) {

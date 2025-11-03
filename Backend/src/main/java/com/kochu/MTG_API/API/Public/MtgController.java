@@ -4,13 +4,13 @@ import com.kochu.MTG_API.API.DTO.AutocompleteDto;
 import com.kochu.MTG_API.API.DTO.HealthDto;
 import com.kochu.MTG_API.API.DTO.CardDto;
 import com.kochu.MTG_API.API.DTO.SetDto;
-import com.kochu.MTG_API.Firestore.UserFirestoreService;
 import com.kochu.MTG_API.API.Enums.MtgColor;
 import com.kochu.MTG_API.API.Enums.MtgDeckBudget;
 import com.kochu.MTG_API.API.Enums.MtgPlayFormat;
 import com.kochu.MTG_API.API.Enums.MtgPlaystyle;
-import com.kochu.MTG_API.Services.MtgService;
+import com.kochu.MTG_API.API.Service.MtgService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "MTG API", description = "Public API for MTG data")
 public class MtgController {
 
     @Autowired

@@ -13,23 +13,19 @@ import java.time.Instant;
 public class UserService {
 
     private final UserFirestoreService userFirestoreService;
-    private final UserDtoMapper userDtoMapper;
     private final static Integer DEFAULT_AMOUNT_OF_TOKENS = 5;
 
-    public UserService(UserFirestoreService userFirestoreService, UserDtoMapper userDtoMapper) {
+    public UserService(UserFirestoreService userFirestoreService) {
         this.userFirestoreService = userFirestoreService;
-        this.userDtoMapper = userDtoMapper;
     }
 
     public UserDto getUser(String userID) throws FirebaseConnectionException {
-        UserFirestoreDto userFirestoreDto = userFirestoreService.getUser(userID);
-
-        return userDtoMapper.map(userFirestoreDto);
+        return userFirestoreService.getUser(userID);
     }
 
     public UserDto createNewUser(String userId) throws FirebaseConnectionException {
-        UserFirestoreDto userFirestoreDto = new UserFirestoreDto(userId, DEFAULT_AMOUNT_OF_TOKENS, Instant.now(), Instant.now());
-        userFirestoreService.saveUser(userFirestoreDto);
-        return userDtoMapper.map(userFirestoreDto);
+        UserDto userDto = new UserDto(userId, DEFAULT_AMOUNT_OF_TOKENS, Instant.now(), Instant.now());
+        userFirestoreService.saveUser(userDto);
+        return userDto;
     }
 }

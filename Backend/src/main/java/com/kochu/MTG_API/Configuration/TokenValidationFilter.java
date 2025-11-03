@@ -80,8 +80,11 @@ public class TokenValidationFilter extends OncePerRequestFilter {
     }
 
     private UserDto getOrCreateUser(String userId) throws FirebaseConnectionException {
-        return Optional.ofNullable(userService.getUser(userId))
-                .orElse(userService.createNewUser(userId));
+        var user = userService.getUser(userId);
+        if(Objects.isNull(user)) {
+           user = userService.createNewUser(userId);
+        }
+        return user;
     }
 
     private FirebaseToken isValidToken(String token) {

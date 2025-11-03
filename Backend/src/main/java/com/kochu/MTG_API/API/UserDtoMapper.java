@@ -16,6 +16,16 @@ public class UserDtoMapper {
                 userFirestoreDto.createdAt(),
                 userFirestoreDto.updatedAt()
         );
+    }
 
+    public UserFirestoreDto map(UserDto userDto) {
+        if(userDto == null) return null;
+
+        return new UserFirestoreDto(
+                userDto.getUserID(),
+                userDto.getTokens(),
+                userDto.getCreatedAt(),
+                userDto.getUpdatedAt()
+        );
     }
 }
