@@ -1,8 +1,8 @@
-package com.kochu.MTG_API.Firestore;
+package com.kochu.MTG_API.Services.Firestore;
 
 import com.kochu.MTG_API.API.DTO.UserDto;
 import com.kochu.MTG_API.API.UserDtoMapper;
-import com.kochu.MTG_API.Firestore.DTO.UserFirestoreDto;
+import com.kochu.MTG_API.Services.Firestore.DTO.UserFirestoreDto;
 import org.springframework.stereotype.Service;
 
 @Service

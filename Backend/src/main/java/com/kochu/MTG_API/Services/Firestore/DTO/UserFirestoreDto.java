@@ -1,4 +1,4 @@
-package com.kochu.MTG_API.Firestore.DTO;
+package com.kochu.MTG_API.Services.Firestore.DTO;
 
 import java.time.Instant;
 

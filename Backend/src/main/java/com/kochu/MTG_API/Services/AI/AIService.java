@@ -1,63 +1,60 @@
-package com.kochu.MTG_API.Services;
+package com.kochu.MTG_API.Services.AI;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kochu.MTG_API.Properties.AiProperties;
+import com.kochu.MTG_API.Services.AI.Properties.AiProperties;
+import com.kochu.MTG_API.Services.AI.Request.AiMessage;
+import com.kochu.MTG_API.Services.AI.Request.AiRequestBody;
+import com.kochu.MTG_API.Services.AI.Request.ResponseFormat;
+import com.kochu.MTG_API.Services.AI.Request.Roles;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
 public class AIService {
 
-    @Autowired
-    private AiProperties properties;
+    private final AiProperties properties;
     private final HttpClient httpClient;
     private final ObjectMapper mapper;
 
     public AIService() {
-        this(HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(15)).build(),
+        this(new AiProperties(), HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(15)).build(),
             new ObjectMapper());
     }
 
-    public AIService(HttpClient httpClient, ObjectMapper mapper) {
+    public AIService(AiProperties properties, HttpClient httpClient, ObjectMapper mapper) {
+        this.properties = properties;
         this.httpClient = httpClient;
         this.mapper = mapper;
     }
 
-    public String callAI(String content, String prompt) throws Exception {
-        Map<String, Object> body = new HashMap<>();
-        body.put("model", properties.getModel());
-        body.put("temperature", 0.7);
+    public String callAI(String content, String prompt) throws IOException, InterruptedException {
 
-        // Chat messages
-        List<Map<String, String>> messages = List.of(
-                Map.of(
-                        "role", "system",
-                        "content", content
-                ),
-                Map.of(
-                        "role", "user",
-                        "content", prompt
+        AiRequestBody requestBody = new AiRequestBody(
+                properties.getModel(),
+                0.7,
+                new ResponseFormat("json_object"),
+                List.of(
+                        new AiMessage(Roles.SYSTEM, content),
+                        new AiMessage(Roles.USER, prompt)
                 )
-        );
-        body.put("messages", messages);
 
-        String json = mapper.writeValueAsString(body);
+        );
+
+        String json = mapper.writeValueAsString(requestBody);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.openai.com/v1/chat/completions"))
+                .uri(URI.create(properties.getUrl()))
                 .timeout(Duration.ofSeconds(60))
                 .header("Authorization", "Bearer " + properties.getApiKey())
                 .header("Content-Type", "application/json; charset=utf-8")

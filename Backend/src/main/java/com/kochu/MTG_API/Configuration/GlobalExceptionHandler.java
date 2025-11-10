@@ -3,7 +3,7 @@ package com.kochu.MTG_API.Configuration;
 import com.kochu.MTG_API.API.DTO.ApiErrorDto;
 import com.kochu.MTG_API.API.Service.Exceptions.CardNotFoundException;
 import com.kochu.MTG_API.API.Service.Exceptions.SetNotFoundException;
-import com.kochu.MTG_API.Firestore.FirebaseConnectionException;
+import com.kochu.MTG_API.Services.Firestore.FirebaseConnectionException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

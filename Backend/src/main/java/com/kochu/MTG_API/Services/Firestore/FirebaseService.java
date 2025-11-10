@@ -1,4 +1,4 @@
-package com.kochu.MTG_API.Firestore;
+package com.kochu.MTG_API.Services.Firestore;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;

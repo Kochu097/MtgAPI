@@ -32,7 +32,11 @@ ai:
   apikey: ${AI_API_KEY}
   model: ${AI_MODEL}
   url: ${AI_URL}
+
 firebase:
   service-account-file: ${FIREBASE_API_KEY_PATH}
   api:
     key: ${FIREBASE_API_KEY}
+
+scryfall:
+  url: ${SCRYFALL_URL}

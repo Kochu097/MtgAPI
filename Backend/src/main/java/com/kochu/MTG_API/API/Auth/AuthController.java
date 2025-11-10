@@ -42,7 +42,7 @@ public class AuthController {
         );
 
         try {
-            Map<String, Object> response = restTemplate.postForObject(url, requestBody, Map.class);
+            var response = restTemplate.postForObject(url, requestBody, Map.class);
 
             log.info("User logged in successfully: {}", loginRequest.getEmail());
 
@@ -66,6 +66,46 @@ public class AuthController {
         }
     }
 
+    @Operation(
+            summary = "Login with Google",
+            description = "Authenticate user with Google OAuth token and return JWT token for API access"
+    )
+    @PostMapping("/google")
+    public ResponseEntity<?> loginWithGoogle(@Valid @RequestBody GoogleLoginRequest googleLoginRequest) {
+        String url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=" + firebaseApiKey;
+
+        Map<String, Object> requestBody = Map.of(
+                "postBody", "id_token=" + googleLoginRequest.getIdToken() + "&providerId=google.com",
+                "requestUri", "http://localhost",
+                "returnSecureToken", true,
+                "returnIdpCredential", true
+        );
+
+        try {
+            var response = restTemplate.postForObject(url, requestBody, Map.class);
+
+            log.info("User logged in with Google successfully: {}", response.get("email"));
+
+            return ResponseEntity.ok(new LoginResponse(
+                    (String) response.get("idToken"),
+                    (String) response.get("refreshToken"),
+                    (String) response.get("expiresIn"),
+                    (String) response.get("localId")
+            ));
+
+        } catch (HttpClientErrorException e) {
+            log.warn("Google login failed: {}", e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid Google token"));
+        } catch (Exception e) {
+            log.error("Google login error: ", e);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Authentication service unavailable"));
+        }
+    }
+
     @Operation(summary = "Refresh authentication token")
     @PostMapping("/refresh")
     public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshTokenRequest request) {
@@ -77,7 +117,7 @@ public class AuthController {
         );
 
         try {
-            Map<String, Object> response = restTemplate.postForObject(url, requestBody, Map.class);
+            var response = restTemplate.postForObject(url, requestBody, Map.class);
 
             return ResponseEntity.ok(Map.of(
                     "idToken", response.get("id_token"),
@@ -115,5 +155,11 @@ public class AuthController {
         private final String refreshToken;
         private final String expiresIn;
         private final String userId;
+    }
+
+    @Data
+    public static class GoogleLoginRequest {
+        @NotBlank(message = "Google ID token is required")
+        private String idToken;
     }
 }

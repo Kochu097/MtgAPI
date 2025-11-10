@@ -1,4 +1,4 @@
-package com.kochu.MTG_API.Properties;
+package com.kochu.MTG_API.Services.AI.Properties;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -16,4 +16,7 @@ public class AiProperties {
 
     @NotNull(message = "Model must be set!")
     private String model;
+
+    @NotNull(message = "url must be set!")
+    private String url;
 }
