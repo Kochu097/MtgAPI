@@ -1,4 +1,4 @@
-package com.kochu.MTG_API.Services.AI.Request;
+package com.kochu.MTG_API.Services.OpenAi.Request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

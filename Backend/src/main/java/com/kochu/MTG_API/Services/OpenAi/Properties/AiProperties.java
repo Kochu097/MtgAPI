@@ -1,4 +1,4 @@
-package com.kochu.MTG_API.Services.AI.Properties;
+package com.kochu.MTG_API.Services.OpenAi.Properties;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

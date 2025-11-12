@@ -1,12 +1,12 @@
-package com.kochu.MTG_API.Services.AI;
+package com.kochu.MTG_API.Services.OpenAi;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kochu.MTG_API.Services.AI.Properties.AiProperties;
-import com.kochu.MTG_API.Services.AI.Request.AiMessage;
-import com.kochu.MTG_API.Services.AI.Request.AiRequestBody;
-import com.kochu.MTG_API.Services.AI.Request.ResponseFormat;
-import com.kochu.MTG_API.Services.AI.Request.Roles;
+import com.kochu.MTG_API.Services.OpenAi.Properties.AiProperties;
+import com.kochu.MTG_API.Services.OpenAi.Request.AiMessage;
+import com.kochu.MTG_API.Services.OpenAi.Request.AiRequestBody;
+import com.kochu.MTG_API.Services.OpenAi.Request.ResponseFormat;
+import com.kochu.MTG_API.Services.OpenAi.Request.Roles;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -21,24 +21,21 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class AIService {
+public class OpenAiService {
 
     private final AiProperties properties;
     private final HttpClient httpClient;
     private final ObjectMapper mapper;
 
-    public AIService() {
-        this(new AiProperties(), HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(15)).build(),
-            new ObjectMapper());
-    }
-
-    public AIService(AiProperties properties, HttpClient httpClient, ObjectMapper mapper) {
+    public OpenAiService(AiProperties properties, ObjectMapper mapper) {
         this.properties = properties;
-        this.httpClient = httpClient;
+        this.httpClient = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(15))
+                .build();;
         this.mapper = mapper;
     }
 
-    public String callAI(String content, String prompt) throws IOException, InterruptedException {
+    public String callOpenAI(String content, String prompt) throws IOException, InterruptedException {
 
         AiRequestBody requestBody = new AiRequestBody(
                 properties.getModel(),

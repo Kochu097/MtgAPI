@@ -7,7 +7,7 @@ import com.kochu.MTG_API.API.DTO.CardDto;
 import com.kochu.MTG_API.API.DTO.UserDto;
 import com.kochu.MTG_API.API.Enums.MtgColor;
 import com.kochu.MTG_API.Services.Firestore.FirebaseConnectionException;
-import com.kochu.MTG_API.Services.AI.AIService;
+import com.kochu.MTG_API.Services.OpenAi.OpenAiService;
 import com.kochu.MTG_API.Services.Scryfall.ScryfallService;
 import com.kochu.MTG_API.Services.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,15 +23,15 @@ public class MTGAIService {
 
     private final ObjectMapper objectMapper;
     private final UserService userService;
-    private final AIService aiService;
+    private final OpenAiService openAiService;
     private final ScryfallService scryfallService;
 
     private final static Integer NEW_DECK_COST = 1;
 
-    public MTGAIService(ObjectMapper objectMapper, UserService userService, AIService aiService, ScryfallService scryfallService) {
+    public MTGAIService(ObjectMapper objectMapper, UserService userService, OpenAiService openAiService, ScryfallService scryfallService) {
         this.objectMapper = objectMapper;
         this.userService = userService;
-        this.aiService = aiService;
+        this.openAiService = openAiService;
         this.scryfallService = scryfallService;
     }
 
@@ -57,7 +57,7 @@ public class MTGAIService {
         var prompt = buildPrompt(request);
         var context = "You are an expert Magic: The Gathering deck builder. You must reply with strict JSON only, no extra text.";
 
-        var result = aiService.callAI(context, prompt);
+        var result = openAiService.callOpenAI(context, prompt);
 
         // Parse JSON object: { "cards": [ ... ] }
         String content = result.trim();
